@@ -18,8 +18,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class DriveCommand extends Command {
-	public DriveCommand() {
+public class TeleOpCommand extends Command {
+	public TeleOpCommand() {
 		
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.kDriveSubsystem);
