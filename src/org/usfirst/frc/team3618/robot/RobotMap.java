@@ -22,12 +22,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  */
 public class RobotMap {
 	
-	public static final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(1);
-	public static final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(2);
-	public static final WPI_TalonSRX rightMotor1 = new WPI_TalonSRX(3);
-	public static final WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(4);
-	public static final SpeedControllerGroup left = new SpeedControllerGroup(leftMotor1,leftMotor2); 
-	public static final SpeedControllerGroup right = new SpeedControllerGroup(rightMotor1,rightMotor2);
-	public static final DifferentialDrive driveTrain = new DifferentialDrive(left,right);
+	public static final int LEFT_MOTOR_1 = 1;
+	public static final int LEFT_MOTOR_2 = 2;
+	public static final int RIGHT_MOTOR_1 = 3;
+	public static final int RIGHT_MOTOR_2 = 4;
 	
 	}
