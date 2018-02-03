@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team3618.robot.commands.AutoDriveCommand;
 import org.usfirst.frc.team3618.robot.commands.TeleOpCommand;
 import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
 
@@ -38,9 +40,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		m_chooser.addDefault("Default Auto", new TeleOpCommand());
+		m_chooser.addDefault("Default Auto", new AutoDriveCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		
 	}
 
 	/**
@@ -91,6 +94,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		SmartDashboard.putNumber("left encoder", Robot.kDriveSubsystem.getLeftCounts());
+		SmartDashboard.putNumber("right encoder", Robot.kDriveSubsystem.getRightCounts());
+		SmartDashboard.putNumber("Gyro Angle", Robot.kDriveSubsystem.getRobotAngle());
 		Scheduler.getInstance().run();
 	}
 
@@ -110,6 +116,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		SmartDashboard.putNumber("left encoder", Robot.kDriveSubsystem.getLeftCounts());
+		SmartDashboard.putNumber("right encoder", Robot.kDriveSubsystem.getRightCounts());
+		SmartDashboard.putNumber("Gyro Angle", Robot.kDriveSubsystem.getRobotAngle());
 		Scheduler.getInstance().run();
 	}
 

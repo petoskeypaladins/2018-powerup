@@ -15,6 +15,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -29,12 +31,17 @@ public class DriveSubsystem extends Subsystem {
 	public static final WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_2);
 	static final SpeedControllerGroup left = new SpeedControllerGroup(leftMotor1,leftMotor2); 
 	static final SpeedControllerGroup right = new SpeedControllerGroup(rightMotor1,rightMotor2);
-	static final DifferentialDrive driveTrain = new DifferentialDrive(left,right);
+	public static final DifferentialDrive driveTrain = new DifferentialDrive(left,right);
+	public static final Solenoid driveSolenoid = new Solenoid(0);
 	static final ADIS16448_IMU gyro = new ADIS16448_IMU();
+	public static final Compressor compressor = new Compressor();
+	int leftValue = 0;
+	int rightValue = 0;
 	
 	public DriveSubsystem() {
 		leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
 		rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
+		encoderReset();
 	}
 	
 	public void initDefaultCommand() {
@@ -42,15 +49,15 @@ public class DriveSubsystem extends Subsystem {
 	}
 	
 	public int getLeftCounts() {
-		return leftMotor1.getSensorCollection().getPulseWidthPosition();
+		return leftValue - leftMotor1.getSensorCollection().getPulseWidthPosition();
 	}
 	
 	public int getRightCounts() {
-		return rightMotor1.getSensorCollection().getPulseWidthPosition();
+		return rightMotor1.getSensorCollection().getPulseWidthPosition() - rightValue;
 	}
 	
 	public double getRobotAngle() {
-		return gyro.getAngle();
+		return gyro.getAngleZ();
 	}
 	
 	public void resetRobotAngle() {
@@ -59,13 +66,18 @@ public class DriveSubsystem extends Subsystem {
 	
 	public void driveStraightGyro(double speed) {
 		double Kp = 0.1;
-		driveTrain.arcadeDrive(speed, Kp*gyro.getAngle());
+		driveTrain.arcadeDrive(speed, Kp*getRobotAngle());
 	}
 	public void stop() {
 		driveTrain.arcadeDrive(0, 0);
 	}
 	public void turn(double angle) {
 		driveTrain.arcadeDrive(0, angle);
+	}
+	public void encoderReset() {
+		leftValue = leftMotor1.getSensorCollection().getPulseWidthPosition();
+		rightValue = rightMotor1.getSensorCollection().getPulseWidthPosition();
+		
 	}
 }
 

@@ -28,14 +28,26 @@ public class TeleOpCommand extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-	DriveSubsystem.driveTrain.arcadeDrive(Robot.m_oi.driveController.getY(Hand.kLeft), Robot.m_oi.driveController.getX(Hand.kRight));
-	
+	DriveSubsystem.driveTrain.arcadeDrive(-Robot.m_oi.driveController.getY(Hand.kLeft), Robot.m_oi.driveController.getX(Hand.kRight));
+	if (Robot.m_oi.driveController.getAButtonPressed() == true) {
+		if (DriveSubsystem.driveSolenoid.get() == true) {
+			DriveSubsystem.driveSolenoid.set(false);
+		} else {
+			DriveSubsystem.driveSolenoid.set(true);
+			
+		}
+	}	
+	if(Robot.m_oi.driveController.getBButtonPressed()) {
+		Robot.kDriveSubsystem.encoderReset();
+		Robot.kDriveSubsystem.resetRobotAngle();
 	}
+}
 	
 
 	// Make this return true when this Command no longer needs to run execute()
