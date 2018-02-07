@@ -29,6 +29,7 @@ public class DriveSubsystem extends Subsystem {
 	public static final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_2);
 	public static final WPI_TalonSRX rightMotor1 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_1);
 	public static final WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_2);
+	public static final WPI_TalonSRX liftHangMotor = new WPI_TalonSRX(RobotMap.LIFT_OR_HANG_MOTOR);
 	static final SpeedControllerGroup left = new SpeedControllerGroup(leftMotor1,leftMotor2); 
 	static final SpeedControllerGroup right = new SpeedControllerGroup(rightMotor1,rightMotor2);
 	public static final DifferentialDrive driveTrain = new DifferentialDrive(left,right);
@@ -42,6 +43,8 @@ public class DriveSubsystem extends Subsystem {
 		leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
 		rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
 		encoderReset();
+//		liftHangMotor.getLimitSwitchState();
+//		liftHangMotor.isFwdLimitSwitchClosed();
 	}
 	
 	public void initDefaultCommand() {
@@ -71,8 +74,8 @@ public class DriveSubsystem extends Subsystem {
 	public void stop() {
 		driveTrain.arcadeDrive(0, 0);
 	}
-	public void turn(double angle) {
-		driveTrain.arcadeDrive(0, angle);
+	public void turn(double rate) {
+		driveTrain.arcadeDrive(0, rate);
 	}
 	public void encoderReset() {
 		leftValue = leftMotor1.getSensorCollection().getPulseWidthPosition();

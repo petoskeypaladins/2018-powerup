@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3618.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3618.robot.commands.AutoDriveCommand;
+import org.usfirst.frc.team3618.robot.commands.AutoTurnCommand;
 import org.usfirst.frc.team3618.robot.commands.TeleOpCommand;
 import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
 
@@ -41,8 +43,10 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		m_chooser.addDefault("Default Auto", new AutoDriveCommand());
+		m_chooser.addObject("Auto turn test", new AutoTurnCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		//CameraServer.getInstance().startAutomaticCapture();
 		
 	}
 

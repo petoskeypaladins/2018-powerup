@@ -35,7 +35,7 @@ public class TeleOpCommand extends Command {
 	@Override
 	protected void execute() {
 	DriveSubsystem.driveTrain.arcadeDrive(-Robot.m_oi.driveController.getY(Hand.kLeft), Robot.m_oi.driveController.getX(Hand.kRight));
-	if (Robot.m_oi.driveController.getAButtonPressed() == true) {
+	if (Robot.m_oi.driveController.getBumperPressed(Hand.kRight) == true) {
 		if (DriveSubsystem.driveSolenoid.get() == true) {
 			DriveSubsystem.driveSolenoid.set(false);
 		} else {
