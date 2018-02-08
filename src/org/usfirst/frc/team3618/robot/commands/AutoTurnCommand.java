@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoTurnCommand extends Command {
 	double goal = 90;
+	double minimum = 0.05;
     public AutoTurnCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -25,12 +26,14 @@ public class AutoTurnCommand extends Command {
     protected void execute() {
     	double difference = goal - Robot.kDriveSubsystem.getRobotAngle();
     	difference = difference / 100;
-    	if (difference > 0.667) {
-    		difference = 0.667;
-    	} else if (difference < -0.667) {
-    		difference = -0.667;
+    	if (difference > 0.6) {
+    		difference = 0.6;
+    	} else if (difference < -0.6) {
+    		difference = -0.6;
     	}
-    	
+//    	if(difference < minimum) {
+//    		difference = minimum;
+//    	}
     	Robot.kDriveSubsystem.turn(difference);
     }
 
@@ -45,10 +48,12 @@ public class AutoTurnCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.kDriveSubsystem.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
