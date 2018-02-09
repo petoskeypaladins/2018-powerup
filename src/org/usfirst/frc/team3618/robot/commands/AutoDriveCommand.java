@@ -9,14 +9,19 @@ import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
  *
  */
 public class AutoDriveCommand extends Command {
-	int goal;
+	double goal;
 	double minimum;
-    public AutoDriveCommand() {
+	double inchGoal;
+	static final double ENCODER_COUNTS_PER_INCH = 217;
+	static final double SCALER = 45000.0;
+	
+    public AutoDriveCommand(double inches) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.kDriveSubsystem);
-    	goal = 10000;
-    	minimum = 0.30;
+    	inchGoal = inches;
+    	goal = inches * ENCODER_COUNTS_PER_INCH;
+    	minimum = 0.35;
     }
 
     // Called just before this Command runs the first time
@@ -27,19 +32,19 @@ public class AutoDriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	int remaining;
+    	double remaining;
     	remaining = goal - Robot.kDriveSubsystem.getLeftCounts();
-    	if(remaining / 20000.0 < minimum) {
-    		Robot.kDriveSubsystem.driveStraightGyro(minimum);
-    	} else {
-    		Robot.kDriveSubsystem.driveStraightGyro(remaining/20000.0); 
+    	double power = remaining / SCALER;
+    	if(power < minimum) {
+    		power = minimum;
     	}
+   		Robot.kDriveSubsystem.driveStraightGyro(power); 
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.kDriveSubsystem.getLeftCounts() > goal;
+        return Robot.kDriveSubsystem.getLeftCounts() / ENCODER_COUNTS_PER_INCH > inchGoal;
     }
 
     // Called once after isFinished returns true

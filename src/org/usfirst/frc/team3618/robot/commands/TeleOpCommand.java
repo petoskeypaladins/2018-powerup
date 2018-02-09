@@ -42,12 +42,14 @@ public class TeleOpCommand extends Command {
 			DriveSubsystem.driveSolenoid.set(true);
 			
 		}
-	}	
+	}
+	
 	if(Robot.m_oi.driveController.getBButtonPressed()) {
 		Robot.kDriveSubsystem.encoderReset();
 		Robot.kDriveSubsystem.resetRobotAngle();
 	}
 }
+	
 	
 
 	// Make this return true when this Command no longer needs to run execute()

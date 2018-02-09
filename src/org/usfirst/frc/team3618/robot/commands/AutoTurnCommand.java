@@ -9,11 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class AutoTurnCommand extends Command {
-	double goal = 90;
-	double minimum = 0.05;
-    public AutoTurnCommand() {
+	double goal;
+	static final double MINIMUM_POWER = 0.45;
+	
+    public AutoTurnCommand(double angle) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	goal = angle;
     	requires(Robot.kDriveSubsystem);
     }
 
@@ -31,9 +33,11 @@ public class AutoTurnCommand extends Command {
     	} else if (difference < -0.6) {
     		difference = -0.6;
     	}
-//    	if(difference < minimum) {
-//    		difference = minimum;
-//    	}
+    	if (difference > 0 && difference < MINIMUM_POWER) {
+    		difference = MINIMUM_POWER;
+    	} else if (difference < 0 && difference > -MINIMUM_POWER) {
+    		difference = -MINIMUM_POWER;
+    	}
     	Robot.kDriveSubsystem.turn(difference);
     }
 
