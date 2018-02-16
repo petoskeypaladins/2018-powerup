@@ -13,7 +13,7 @@ public class AutoDriveCommand extends Command {
 	double minimum;
 	double inchGoal;
 	static final double ENCODER_COUNTS_PER_INCH = 217;
-	static final double SCALER = 45000.0;
+	static final double SCALER = 50000.0;
 	
     public AutoDriveCommand(double inches) {
         // Use requires() here to declare subsystem dependencies

@@ -13,7 +13,9 @@ public class testAuto extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	addSequential(new AutoDriveCommand(160));
+    	addSequential(new WaitCommand(), 1.5);
     	addSequential(new AutoTurnCommand(90));
+    	addSequential(new WaitCommand(), 1.5);
     	addSequential(new AutoDriveCommand(50));
         // To run multiple commands at the same time,
         // use addParallel()

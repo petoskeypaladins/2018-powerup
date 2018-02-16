@@ -38,6 +38,7 @@ public class DriveSubsystem extends Subsystem {
 	public static final Compressor compressor = new Compressor();
 	int leftValue = 0;
 	int rightValue = 0;
+	static final double TURN_CLIP = 0.1;
 	
 	public DriveSubsystem() {
 		leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
@@ -69,7 +70,12 @@ public class DriveSubsystem extends Subsystem {
 	
 	public void driveStraightGyro(double speed) {
 		double Kp = 0.1;
-		driveTrain.arcadeDrive(speed, Kp*getRobotAngle());
+		double turn = Kp*getRobotAngle(); 
+		if (turn > TURN_CLIP)
+			turn = TURN_CLIP;
+		else if (turn < -TURN_CLIP)
+			turn = -TURN_CLIP;
+		driveTrain.arcadeDrive(speed,turn);
 	}
 	public void stop() {
 		driveTrain.arcadeDrive(0, 0);

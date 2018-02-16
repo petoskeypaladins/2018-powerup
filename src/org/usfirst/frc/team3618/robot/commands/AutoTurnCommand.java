@@ -10,23 +10,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoTurnCommand extends Command {
 	double goal;
-	static final double MINIMUM_POWER = 0.45;
+	public double difference;
+	static final double MINIMUM_POWER = 0.39;
+	boolean done;
+	boolean lastDone;
+	double timeCompleted;
 	
     public AutoTurnCommand(double angle) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	goal = angle;
+    	lastDone = false;
     	requires(Robot.kDriveSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.kDriveSubsystem.resetRobotAngle();
+    	Robot.kDriveSubsystem.encoderReset();
+		Robot.kDriveSubsystem.resetRobotAngle();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double difference = goal - Robot.kDriveSubsystem.getRobotAngle();
+    	difference = goal - Robot.kDriveSubsystem.getRobotAngle();
     	difference = difference / 100;
     	if (difference > 0.6) {
     		difference = 0.6;
@@ -39,15 +45,18 @@ public class AutoTurnCommand extends Command {
     		difference = -MINIMUM_POWER;
     	}
     	Robot.kDriveSubsystem.turn(difference);
+    	SmartDashboard.putNumber("difference value", difference);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	boolean done = Math.abs(Robot.kDriveSubsystem.getRobotAngle()- goal) < 5.00;
-    	if (done == true) {
+    	done = (Math.abs(Robot.kDriveSubsystem.getRobotAngle()- goal) < 6.00) || done;
+    	if (done && done != lastDone) {
     		System.out.println(Robot.kDriveSubsystem.getRobotAngle());
+    		timeCompleted = timeSinceInitialized();
+    		lastDone = done;
     	}
-    	return done;
+    	return done && (timeSinceInitialized() - timeCompleted) > 1.0;
     }
 
     // Called once after isFinished returns true
