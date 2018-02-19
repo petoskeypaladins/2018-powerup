@@ -3,7 +3,9 @@ package org.usfirst.frc.team3618.robot.commands;
 import org.usfirst.frc.team3618.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 
 /**
  *
@@ -38,6 +40,7 @@ public class AutoDriveCommand extends Command {
     	if(power < minimum) {
     		power = minimum;
     	}
+    	SmartDashboard.putNumber("Inches", Robot.kDriveSubsystem.getLeftCounts() / ENCODER_COUNTS_PER_INCH);
    		Robot.kDriveSubsystem.driveStraightGyro(power); 
     	
     }

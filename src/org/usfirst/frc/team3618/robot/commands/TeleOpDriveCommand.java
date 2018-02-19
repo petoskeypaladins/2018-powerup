@@ -18,8 +18,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class TeleOpCommand extends Command {
-	public TeleOpCommand() {
+public class TeleOpDriveCommand extends Command {
+	public TeleOpDriveCommand() {
 		
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.kDriveSubsystem);
@@ -31,16 +31,18 @@ public class TeleOpCommand extends Command {
 		
 	}
 
+
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
 	DriveSubsystem.driveTrain.arcadeDrive(-Robot.m_oi.driveController.getY(Hand.kLeft), Robot.m_oi.driveController.getX(Hand.kRight));
 	if (Robot.m_oi.driveController.getBumperPressed(Hand.kRight) == true) {
-		if (DriveSubsystem.driveSolenoid.get() == true) {
-			DriveSubsystem.driveSolenoid.set(false);
+		if (DriveSubsystem.leftDriveSolenoid.get() == true) {
+			DriveSubsystem.leftDriveSolenoid.set(false);
+			DriveSubsystem.rightDriveSolenoid.set(false);
 		} else {
-			DriveSubsystem.driveSolenoid.set(true);
-			
+			DriveSubsystem.leftDriveSolenoid.set(true);
+			DriveSubsystem.rightDriveSolenoid.set(true);
 		}
 	}
 	

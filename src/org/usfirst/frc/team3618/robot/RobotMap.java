@@ -20,5 +20,7 @@ public class RobotMap {
 	public static final int LEFT_MOTOR_2 = 15;
 	public static final int RIGHT_MOTOR_1 = 1;
 	public static final int RIGHT_MOTOR_2 = 0;
-	public static final int LIFT_OR_HANG_MOTOR = 10;
+	public static final int LEFT_LIFT = 13;
+	public static final int RIGHT_LIFT = 2;
+	//hi
 	}

@@ -1,22 +1,25 @@
 package org.usfirst.frc.team3618.robot.commands;
 
+import org.usfirst.frc.team3618.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class testAuto extends CommandGroup {
+public class testLiftsSequence extends CommandGroup {
 
-    public testAuto() {
+    public testLiftsSequence() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addSequential(new AutoDriveCommand(170));
-    	addSequential(new WaitCommand(), 1.5);
-    	addSequential(new AutoTurnCommand(90));
-    	addSequential(new WaitCommand(), 1.5);
-    	addSequential(new AutoDriveCommand(50));
+    	addSequential(new AutoLiftCommand(Robot.kLiftSubsystem.LIFT_SCALE_HEIGHT));
+    	addSequential(new WaitCommand(), 1);
+    	addSequential(new AutoLiftCommand(Robot.kLiftSubsystem.LIFT_SWITCH_HEIGHT));
+    	addSequential(new WaitCommand(), 1);
+    	
+    	
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

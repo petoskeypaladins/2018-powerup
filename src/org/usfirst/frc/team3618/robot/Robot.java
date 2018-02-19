@@ -15,10 +15,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3618.robot.commands.AutoDriveCommand;
+import org.usfirst.frc.team3618.robot.commands.AutoLiftCommand;
 import org.usfirst.frc.team3618.robot.commands.AutoTurnCommand;
-import org.usfirst.frc.team3618.robot.commands.TeleOpCommand;
 import org.usfirst.frc.team3618.robot.commands.testAuto;
+import org.usfirst.frc.team3618.robot.commands.testLiftsSequence;
 import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team3618.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team3618.robot.subsystems.LightsSubsystem;
 
 
@@ -34,6 +36,8 @@ public class Robot extends TimedRobot {
 			= new DriveSubsystem();
 	public static final LightsSubsystem kLightsSubsystem
 			= new LightsSubsystem();
+	public static final LiftSubsystem kLiftSubsystem
+	= new LiftSubsystem();
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
@@ -46,9 +50,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		m_chooser.addDefault("Default Auto", new AutoDriveCommand(160));
+		m_chooser.addDefault("Lift Test Sequence", new testLiftsSequence());
 		m_chooser.addObject("Auto turn test", new AutoTurnCommand(-90));
 		m_chooser.addObject("Test Sequence", new testAuto());
+		m_chooser.addObject("Lift Test Auto", new AutoLiftCommand(40));
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		//CameraServer.getInstance().startAutomaticCapture();
@@ -128,8 +133,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("left encoder", Robot.kDriveSubsystem.getLeftCounts());
 		SmartDashboard.putNumber("right encoder", Robot.kDriveSubsystem.getRightCounts());
 		SmartDashboard.putNumber("Gyro Angle", Robot.kDriveSubsystem.getRobotAngle());
-		SmartDashboard.putBoolean("Forward Limit Switch", Robot.kDriveSubsystem.liftHangMotor.getSensorCollection().isFwdLimitSwitchClosed());
-		SmartDashboard.putBoolean("Reverse Limit Switch", Robot.kDriveSubsystem.liftHangMotor.getSensorCollection().isRevLimitSwitchClosed());
 		Scheduler.getInstance().run();
 	}
 

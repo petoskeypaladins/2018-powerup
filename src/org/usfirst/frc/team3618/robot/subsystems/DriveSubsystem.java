@@ -9,7 +9,7 @@ package org.usfirst.frc.team3618.robot.subsystems;
 
 import org.usfirst.frc.team3618.robot.Robot;
 import org.usfirst.frc.team3618.robot.RobotMap;
-import org.usfirst.frc.team3618.robot.commands.TeleOpCommand;
+import org.usfirst.frc.team3618.robot.commands.TeleOpDriveCommand;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -29,11 +29,11 @@ public class DriveSubsystem extends Subsystem {
 	public static final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_2);
 	public static final WPI_TalonSRX rightMotor1 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_1);
 	public static final WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_2);
-	public static final WPI_TalonSRX liftHangMotor = new WPI_TalonSRX(RobotMap.LIFT_OR_HANG_MOTOR);
 	static final SpeedControllerGroup left = new SpeedControllerGroup(leftMotor1,leftMotor2); 
 	static final SpeedControllerGroup right = new SpeedControllerGroup(rightMotor1,rightMotor2);
 	public static final DifferentialDrive driveTrain = new DifferentialDrive(left,right);
-	public static final Solenoid driveSolenoid = new Solenoid(0);
+	public static final Solenoid leftDriveSolenoid = new Solenoid(0);
+	public static final Solenoid rightDriveSolenoid = new Solenoid(2);
 	static final ADIS16448_IMU gyro = new ADIS16448_IMU();
 	public static final Compressor compressor = new Compressor();
 	int leftValue = 0;
@@ -49,7 +49,7 @@ public class DriveSubsystem extends Subsystem {
 	}
 	
 	public void initDefaultCommand() {
-		setDefaultCommand(new TeleOpCommand());
+		setDefaultCommand(new TeleOpDriveCommand());
 	}
 	
 	public int getLeftCounts() {
@@ -69,7 +69,7 @@ public class DriveSubsystem extends Subsystem {
 	}
 	
 	public void driveStraightGyro(double speed) {
-		double Kp = 0.1;
+		double Kp = 0.15;
 		double turn = Kp*getRobotAngle(); 
 		if (turn > TURN_CLIP)
 			turn = TURN_CLIP;
