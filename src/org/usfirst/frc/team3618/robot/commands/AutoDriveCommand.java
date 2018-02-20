@@ -30,6 +30,7 @@ public class AutoDriveCommand extends Command {
     protected void initialize() {
     	Robot.kDriveSubsystem.resetRobotAngle();
     	Robot.kDriveSubsystem.encoderReset();
+    	Robot.kDriveSubsystem.shifToHighGear(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
