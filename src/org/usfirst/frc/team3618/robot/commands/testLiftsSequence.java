@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3618.robot.commands;
 
-import org.usfirst.frc.team3618.robot.Robot;
+import org.usfirst.frc.team3618.robot.subsystems.LiftSubsystem;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -14,9 +14,9 @@ public class testLiftsSequence extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addSequential(new AutoLiftCommand(Robot.kLiftSubsystem.LIFT_SCALE_HEIGHT));
+    	addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
     	addSequential(new WaitCommand(), 1);
-    	addSequential(new AutoLiftCommand(Robot.kLiftSubsystem.LIFT_SWITCH_HEIGHT));
+    	addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));
     	addSequential(new WaitCommand(), 1);
     	
     	
