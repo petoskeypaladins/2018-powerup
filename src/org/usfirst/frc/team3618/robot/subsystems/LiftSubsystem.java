@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -18,7 +19,7 @@ public class LiftSubsystem extends Subsystem {
 	public final TalonSRX leftLift = new TalonSRX(RobotMap.LEFT_LIFT);
 	public final TalonSRX rightLift = new TalonSRX(RobotMap.RIGHT_LIFT);
 	public final AnalogInput liftHeight = new AnalogInput(0);
-	public final DoubleSolenoid lock = new DoubleSolenoid(1,3);
+	final DoubleSolenoid lock = new DoubleSolenoid(1,3);
 	final double VOLTS_PER_INCH = (4.2 - 0.253) / (77.0 - 4.25);
 	final double LIFT_HEIGHT_OFFSET = 4.5; // Inches
 	static final Value NOT_LOCKED = Value.kForward;
@@ -31,6 +32,10 @@ public class LiftSubsystem extends Subsystem {
 	public static final double LIFT_SCALE_HEIGHT = 75;
 	public static final double LIFT_BOTTOM_HEIGHT = 0;
 	int liftValue = 0;
+	boolean startedDown;
+	int downTime;
+	boolean externalUnlock = false;
+	int counter = 0;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -58,6 +63,10 @@ public class LiftSubsystem extends Subsystem {
     	double remain = 0;
     	double maxPower = 0;
     	if(direction < 0) {
+    		if (!startedDown) {
+    			startedDown = true;
+    			downTime = 0;
+    		}
     		remain = LIFT_BOTTOM_HEIGHT - getCurrentLiftHeight(); // 0 to -75" remain to go down
     		maxPower = remain / 11.0;
     		if (isLiftDown())
@@ -65,6 +74,7 @@ public class LiftSubsystem extends Subsystem {
     		else if (direction < maxPower)
     			direction = maxPower; // don't hit the end of travel hard
     	} else if (direction > 0) {
+    		startedDown = false;
     		// trying to go up
     		remain = LIFT_SCALE_HEIGHT - getCurrentLiftHeight(); // 0 to 75" remain to go up
     		maxPower = remain / 7.0; // need more power going up than down
@@ -74,12 +84,25 @@ public class LiftSubsystem extends Subsystem {
     		else if (direction > maxPower)
     			direction = maxPower; // don't hit end of travel hard
         }
-    		
+    	else {
+    		startedDown = false;
+    	}
     	if (direction == 0) {
-    		leftLift.set(ControlMode.PercentOutput, 0);
-       		rightLift.set(ControlMode.PercentOutput, 0);
-       		lock.set(LOCKED);
+       		if(externalUnlock) {
+       			lock.set(NOT_LOCKED);
+       			if (counter > 10) {
+		    		leftLift.set(ControlMode.PercentOutput, -0.12);
+		       		rightLift.set(ControlMode.PercentOutput, -0.12);
+       			}
+       			counter++;
+       		} else {
+       			lock.set(LOCKED);
+       			counter= 0;
+        		leftLift.set(ControlMode.PercentOutput, 0);
+           		rightLift.set(ControlMode.PercentOutput, 0);
+       		}
    		} else {
+   			counter=0;
    			double minimum = MINIMUM;
    			if(getCurrentLiftHeight() > SECOND_STAGE_HEIGHT){
    				minimum = SECOND_STAGE_MINIMUM;
@@ -93,11 +116,19 @@ public class LiftSubsystem extends Subsystem {
    			} else if (direction < -MAXIMUM) {
    				direction = -MAXIMUM;
    			}
-
-    		leftLift.set(ControlMode.PercentOutput, direction);
-       		rightLift.set(ControlMode.PercentOutput, direction);
-       		lock.set(NOT_LOCKED);
+   			if ((direction < 0 && downTime > 20) || (direction > 0)) {
+	    		leftLift.set(ControlMode.PercentOutput, direction);
+	       		rightLift.set(ControlMode.PercentOutput, direction);
+   			}
+   			downTime++;
+	       	lock.set(NOT_LOCKED);
     	}
+    }
+    public void unlock() {
+    	externalUnlock = true;
+    }
+    public void lock() {
+    	externalUnlock =  false;
     }
     public void encoderReset() {
     	liftValue = rightLift.getSensorCollection().getPulseWidthPosition();

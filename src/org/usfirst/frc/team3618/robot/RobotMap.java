@@ -16,11 +16,28 @@ package org.usfirst.frc.team3618.robot;
  */
 public class RobotMap {
 	
+	// CANTalons
 	public static final int LEFT_MOTOR_1 = 14;
 	public static final int LEFT_MOTOR_2 = 15;
 	public static final int RIGHT_MOTOR_1 = 1;
 	public static final int RIGHT_MOTOR_2 = 0;
 	public static final int LEFT_LIFT = 13;
 	public static final int RIGHT_LIFT = 2;
-	//hi
+	public static final int LEFT_INTAKE = 11;
+	public static final int RIGHT_INTAKE = 4;
+	public static final int LEFT_CLIMB = 12;
+	public static final int RIGHT_CLIMB = 3;
+	public static final int PIVOT_MOTOR = 10;
+	
+	//Solenoids
+	public static final int CLAMP_SOLENOID_1 = 4;
+	public static final int CLAMP_SOLENOID_2 = 5;
+	
+	
+	
+	//Servo
+		public static final int SERVO_PORT = 0;
 	}
+	
+
+	

@@ -8,28 +8,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class TeleOpLiftCommand extends Command {
-	static final double LIFT_SPEED = 0.3;
-    public TeleOpLiftCommand() {
+public class TeleOpIntakeCommand extends Command {
+	final double INTAKE_SPEED = 0.3;
+	boolean lastPress;
+    public TeleOpIntakeCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.kLiftSubsystem);
+    	requires(Robot.kIntakeSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.kIntakeSubsystem.pivotReset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("Current lift voltage",Robot.kLiftSubsystem.getCurrentLiftHeight());
-    	SmartDashboard.putBoolean("Lift limit switch value", Robot.kLiftSubsystem.isLiftDown());
-    	SmartDashboard.putNumber("Encoder value", Robot.kLiftSubsystem.getEncoderValue());
-    	if (Robot.m_oi.functionController.getRawAxis(1) > 0.1 || Robot.m_oi.functionController.getRawAxis(1) < -0.1) {
-    		Robot.kLiftSubsystem.moveLift(Robot.m_oi.functionController.getRawAxis(1) / 2);
+    	if (Robot.m_oi.functionController.getRawButton(3)) {
+    		Robot.kIntakeSubsystem.move(INTAKE_SPEED);
+    	} else if (Robot.m_oi.functionController.getRawButton(4)) {
+    		Robot.kIntakeSubsystem.move(-INTAKE_SPEED);
     	} else {
-    		Robot.kLiftSubsystem.moveLift(0);
+    		Robot.kIntakeSubsystem.move(0);
     	}
+    	boolean thisPress = Robot.m_oi.functionController.getRawButton(2);
+    	if(thisPress != lastPress) {
+    		lastPress = thisPress;
+    		if(lastPress) {
+    			Robot.kIntakeSubsystem.toggleClamp();
+    		}
+    	}
+    SmartDashboard.putNumber("Photo Sensor Value", Robot.kIntakeSubsystem.photoSwitch.getVoltage());
+    SmartDashboard.putNumber("Pivot Encoder Value", Robot.kIntakeSubsystem.getPivotPosition());
     }
 
     // Make this return true when this Command no longer needs to run execute()

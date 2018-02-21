@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3618.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
 /**
@@ -15,4 +16,5 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class OI {
 public final XboxController driveController = new XboxController(0);
+public final Joystick functionController = new Joystick(1);
 }

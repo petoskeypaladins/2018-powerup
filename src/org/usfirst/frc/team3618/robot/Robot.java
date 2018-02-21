@@ -19,7 +19,9 @@ import org.usfirst.frc.team3618.robot.commands.AutoLiftCommand;
 import org.usfirst.frc.team3618.robot.commands.AutoTurnCommand;
 import org.usfirst.frc.team3618.robot.commands.testAuto;
 import org.usfirst.frc.team3618.robot.commands.testLiftsSequence;
+import org.usfirst.frc.team3618.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team3618.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team3618.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team3618.robot.subsystems.LightsSubsystem;
 
@@ -31,13 +33,18 @@ import org.usfirst.frc.team3618.robot.subsystems.LightsSubsystem;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
+@SuppressWarnings("unused")
 public class Robot extends TimedRobot {
 	public static final DriveSubsystem kDriveSubsystem
 			= new DriveSubsystem();
 	public static final LightsSubsystem kLightsSubsystem
 			= new LightsSubsystem();
 	public static final LiftSubsystem kLiftSubsystem
-	= new LiftSubsystem();
+			= new LiftSubsystem();
+	public static final IntakeSubsystem kIntakeSubsystem
+			= new IntakeSubsystem();
+	public static final ClimbSubsystem kClimbSubsystem
+			= new ClimbSubsystem();
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
