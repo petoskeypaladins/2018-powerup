@@ -84,9 +84,9 @@ public class DriveSubsystem extends Subsystem {
     	lastSpeed = newSpeed;
     	return(newSpeed);
     }
-	public void driveStraightGyro(double speed) {
+	public void driveStraightGyro(double speed,double angle) {
 		double Kp = 0.15;
-		double turn = Kp*getRobotAngle(); 
+		double turn = Kp*(getRobotAngle()-angle); 
 		if (turn > TURN_CLIP)
 			turn = TURN_CLIP;
 		else if (turn < -TURN_CLIP)

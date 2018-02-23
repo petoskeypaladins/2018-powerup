@@ -17,13 +17,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3618.robot.commands.AutoDriveCommand;
 import org.usfirst.frc.team3618.robot.commands.AutoLiftCommand;
 import org.usfirst.frc.team3618.robot.commands.AutoTurnCommand;
-import org.usfirst.frc.team3618.robot.commands.testAuto;
+import org.usfirst.frc.team3618.robot.commands.LeftAutonomousCommand;
 import org.usfirst.frc.team3618.robot.commands.testLiftsSequence;
 import org.usfirst.frc.team3618.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team3618.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team3618.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team3618.robot.subsystems.LightsSubsystem;
+import org.usfirst.frc.team3618.robot.subsystems.PivotSubsystem;
 
 
 /**
@@ -45,6 +46,8 @@ public class Robot extends TimedRobot {
 			= new IntakeSubsystem();
 	public static final ClimbSubsystem kClimbSubsystem
 			= new ClimbSubsystem();
+	public static final PivotSubsystem kPivotSubsystem
+			= new PivotSubsystem();
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
@@ -57,9 +60,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		m_chooser.addDefault("Lift Test Sequence", new testLiftsSequence());
+		m_chooser.addDefault("Autonomous Left", new LeftAutonomousCommand());
 		m_chooser.addObject("Auto turn test", new AutoTurnCommand(-90));
-		m_chooser.addObject("Test Sequence", new testAuto());
 		m_chooser.addObject("Lift Test Auto", new AutoLiftCommand(40));
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
@@ -95,7 +97,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		// new AUTO COMMAND THAT SIMPLY CHOOSES WHICH Left|Right|CenterAutomous runs
 		m_autonomousCommand = m_chooser.getSelected();
+	   	kPivotSubsystem.pivotReset();
+	    
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -130,6 +135,7 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+	   	kPivotSubsystem.pivotReset();
 	}
 
 	/**

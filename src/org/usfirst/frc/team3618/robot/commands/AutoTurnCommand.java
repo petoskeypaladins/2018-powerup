@@ -27,7 +27,7 @@ public class AutoTurnCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.kDriveSubsystem.encoderReset();
-		Robot.kDriveSubsystem.resetRobotAngle();
+//		Robot.kDriveSubsystem.resetRobotAngle();
     }
 
     // Called repeatedly when this Command is scheduled to run

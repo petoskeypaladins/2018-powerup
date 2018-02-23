@@ -14,21 +14,23 @@ public class AutoDriveCommand extends Command {
 	double goal;
 	double minimum;
 	double inchGoal;
+	double goalAngle;
 	static final double ENCODER_COUNTS_PER_INCH = 217;
-	static final double SCALER = 50000.0;
+	static final double SCALER = 48000.0;
 	
-    public AutoDriveCommand(double inches) {
+    public AutoDriveCommand(double inches, double angle) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.kDriveSubsystem);
     	inchGoal = inches;
+    	goalAngle = angle;
     	goal = inches * ENCODER_COUNTS_PER_INCH;
     	minimum = 0.35;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.kDriveSubsystem.resetRobotAngle();
+//    	Robot.kDriveSubsystem.resetRobotAngle();
     	Robot.kDriveSubsystem.encoderReset();
     	Robot.kDriveSubsystem.shifToHighGear(false);
     }
@@ -42,7 +44,7 @@ public class AutoDriveCommand extends Command {
     		power = minimum;
     	}
     	SmartDashboard.putNumber("Inches", Robot.kDriveSubsystem.getLeftCounts() / ENCODER_COUNTS_PER_INCH);
-   		Robot.kDriveSubsystem.driveStraightGyro(power); 
+   		Robot.kDriveSubsystem.driveStraightGyro(power, goalAngle); 
     	
     }
 

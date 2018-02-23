@@ -3,7 +3,6 @@ package org.usfirst.frc.team3618.robot.commands;
 import org.usfirst.frc.team3618.robot.Robot;
 import org.usfirst.frc.team3618.robot.subsystems.ClimbSubsystem;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -40,7 +39,7 @@ public class TeleOpClimbCommand extends Command {
     	boolean thisPress6 = Robot.m_oi.functionController.getRawButton(6);
     	if(thisPress6 != lastPress6) {
     		lastPress6 = thisPress6;
-    		if(lastPress6) {
+    		if(lastPress6 && Robot.kLiftSubsystem.isLiftDown()) {
     			Robot.kClimbSubsystem.latch();
     		}
     	}

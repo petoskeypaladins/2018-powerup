@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class TeleOpIntakeCommand extends Command {
-	final double INTAKE_SPEED = 0.3;
 	boolean lastPress;
     public TeleOpIntakeCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -19,15 +18,15 @@ public class TeleOpIntakeCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.kIntakeSubsystem.pivotReset();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if (Robot.m_oi.functionController.getRawButton(3)) {
-    		Robot.kIntakeSubsystem.move(INTAKE_SPEED);
+    		Robot.kIntakeSubsystem.move(Robot.kIntakeSubsystem.INTAKE_SPEED);
     	} else if (Robot.m_oi.functionController.getRawButton(4)) {
-    		Robot.kIntakeSubsystem.move(-INTAKE_SPEED);
+    		Robot.kIntakeSubsystem.move(-Robot.kIntakeSubsystem.INTAKE_SPEED);
     	} else {
     		Robot.kIntakeSubsystem.move(0);
     	}
@@ -39,7 +38,6 @@ public class TeleOpIntakeCommand extends Command {
     		}
     	}
     SmartDashboard.putNumber("Photo Sensor Value", Robot.kIntakeSubsystem.photoSwitch.getVoltage());
-    SmartDashboard.putNumber("Pivot Encoder Value", Robot.kIntakeSubsystem.getPivotPosition());
     }
 
     // Make this return true when this Command no longer needs to run execute()

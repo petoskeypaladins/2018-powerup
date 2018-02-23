@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -24,11 +23,11 @@ public class LiftSubsystem extends Subsystem {
 	final double LIFT_HEIGHT_OFFSET = 4.5; // Inches
 	static final Value NOT_LOCKED = Value.kForward;
 	static final Value LOCKED = Value.kReverse;
-	static final double MINIMUM = 0.145;
+	static final double MINIMUM = 0.175;
 	static final double MAXIMUM = 0.7;
 	static final double SECOND_STAGE_MINIMUM = 0.25;
 	public static final double SECOND_STAGE_HEIGHT = 37;
-	public static final double LIFT_SWITCH_HEIGHT = 19;
+	public static final double LIFT_SWITCH_HEIGHT = 27;
 	public static final double LIFT_SCALE_HEIGHT = 75;
 	public static final double LIFT_BOTTOM_HEIGHT = 0;
 	int liftValue = 0;
@@ -91,8 +90,8 @@ public class LiftSubsystem extends Subsystem {
        		if(externalUnlock) {
        			lock.set(NOT_LOCKED);
        			if (counter > 10) {
-		    		leftLift.set(ControlMode.PercentOutput, -0.12);
-		       		rightLift.set(ControlMode.PercentOutput, -0.12);
+		    		leftLift.set(ControlMode.PercentOutput, -0.1);
+		       		rightLift.set(ControlMode.PercentOutput, -0.1);
        			}
        			counter++;
        		} else {
