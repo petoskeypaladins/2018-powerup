@@ -25,18 +25,19 @@ public class LightsCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	int light;
-    	light = Math.floorMod((int) timeSinceInitialized(), 3);
-    	if (light == 0) {
-    		Robot.kLightsSubsystem.green.set(false);
-    		Robot.kLightsSubsystem.red.set(true);
-    	} else if (light == 1) {
-    		Robot.kLightsSubsystem.red.set(false);
-    		Robot.kLightsSubsystem.blue.set(true);
-    	} else {
-    		Robot.kLightsSubsystem.blue.set(false);
-    		Robot.kLightsSubsystem.green.set(true);
-    	}
+//    	int light;
+//    	light = Math.floorMod((int) timeSinceInitialized(), 3);
+//    	if (light == 0) {
+//    		Robot.kLightsSubsystem.green.set(false);
+//    		Robot.kLightsSubsystem.red.set(true);
+//    	} else if (light == 1) {
+//    		Robot.kLightsSubsystem.red.set(false);
+//    		Robot.kLightsSubsystem.blue.set(true);
+//    	} else {
+//    		Robot.kLightsSubsystem.blue.set(false);
+//    		Robot.kLightsSubsystem.green.set(true);
+//    	}
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

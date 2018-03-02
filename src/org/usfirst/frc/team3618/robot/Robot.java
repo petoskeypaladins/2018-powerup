@@ -15,9 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3618.robot.commands.AutoDriveCommand;
+import org.usfirst.frc.team3618.robot.commands.AutoLeftScaleCommand;
 import org.usfirst.frc.team3618.robot.commands.AutoLiftCommand;
 import org.usfirst.frc.team3618.robot.commands.AutoTurnCommand;
+import org.usfirst.frc.team3618.robot.commands.CenterAutonomousCommand;
 import org.usfirst.frc.team3618.robot.commands.LeftAutonomousCommand;
+import org.usfirst.frc.team3618.robot.commands.RightAutonomousCommand;
+import org.usfirst.frc.team3618.robot.commands.pivotTester;
 import org.usfirst.frc.team3618.robot.commands.testLiftsSequence;
 import org.usfirst.frc.team3618.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
@@ -51,7 +55,7 @@ public class Robot extends TimedRobot {
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	SendableChooser<Integer> m_chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -60,12 +64,15 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		m_chooser.addDefault("Autonomous Left", new LeftAutonomousCommand());
-		m_chooser.addObject("Auto turn test", new AutoTurnCommand(-90));
-		m_chooser.addObject("Lift Test Auto", new AutoLiftCommand(40));
+		m_chooser.addDefault("Autonomous Left", 1);
+		m_chooser.addObject("Autonomous Center", 2);
+		m_chooser.addObject("Autonomous Right", 3);
+		m_chooser.addObject("Autonomous Left Scale", 4);
+		m_chooser.addObject("Pivot Test", 5);
+		//this is a useless comment to make it compile
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		//CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 		
 	}
 
@@ -98,7 +105,26 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		// new AUTO COMMAND THAT SIMPLY CHOOSES WHICH Left|Right|CenterAutomous runs
-		m_autonomousCommand = m_chooser.getSelected();
+		  // new AUTO COMMAND THAT SIMPLY CHOOSES WHICH Left|Right|Center Auto
+	    //m_autonomousCommand = m_chooser.getSelected();
+	    // this will construct the commands after Auton starts
+	    
+	    Integer whichChoice = m_chooser.getSelected();
+	    switch(whichChoice) { 
+	      case 1: m_autonomousCommand = new LeftAutonomousCommand(); 
+	              break;
+	      case 2: m_autonomousCommand = new CenterAutonomousCommand();
+	              break; 
+	      case 3: m_autonomousCommand = new RightAutonomousCommand();
+	              break; 
+	      case 4: m_autonomousCommand = new AutoLeftScaleCommand();
+	      		  break;
+	      case 5: m_autonomousCommand = new pivotTester();
+	      default: // what to do if you don't choose 1, 2 or 3
+	              break; 
+	    }
+
+
 	   	kPivotSubsystem.pivotReset();
 	    
 

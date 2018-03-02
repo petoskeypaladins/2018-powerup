@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3618.robot.commands;
 
 import org.usfirst.frc.team3618.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -10,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TeleOpLiftCommand extends Command {
 	static final double LIFT_SPEED = 0.3;
+	boolean lastPress;
     public TeleOpLiftCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -25,11 +25,24 @@ public class TeleOpLiftCommand extends Command {
     	SmartDashboard.putNumber("Current lift voltage",Robot.kLiftSubsystem.getCurrentLiftHeight());
     	SmartDashboard.putBoolean("Lift limit switch value", Robot.kLiftSubsystem.isLiftDown());
     	SmartDashboard.putNumber("Encoder value", Robot.kLiftSubsystem.getEncoderValue());
-    	if (Robot.m_oi.functionController.getRawAxis(1) > 0.1 || Robot.m_oi.functionController.getRawAxis(1) < -0.1) {
-    		Robot.kLiftSubsystem.moveLift(Robot.m_oi.functionController.getRawAxis(1) / 2);
-    	} else {
-    		Robot.kLiftSubsystem.moveLift(0);
-    	}
+    	
+//    	boolean thisPress = Robot.m_oi.functionController.getRawButton(12);
+//    	if(thisPress != lastPress) {
+//    		lastPress = thisPress;
+//    		if(lastPress && Robot.kLiftSubsystem.isLiftDown()) {
+//    			if (Robot.kLiftSubsystem.lock.get() == LiftSubsystem.LOCKED) {
+//    				Robot.kLiftSubsystem.lock.set(LiftSubsystem.NOT_LOCKED);
+//    			} else {
+//    				Robot.kLiftSubsystem.lock.set(LiftSubsystem.LOCKED);
+//    			}
+//    		} else {
+    			if (Robot.m_oi.functionController.getRawAxis(1) > 0.1 || Robot.m_oi.functionController.getRawAxis(1) < -0.1) {
+    	    		Robot.kLiftSubsystem.moveLift(Robot.m_oi.functionController.getRawAxis(1) * 0.6);
+    	    	} else {
+    	    		Robot.kLiftSubsystem.moveLift(0);
+    	    	}
+//    		}
+//    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

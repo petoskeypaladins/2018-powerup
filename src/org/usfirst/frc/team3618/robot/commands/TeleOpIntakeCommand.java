@@ -2,6 +2,7 @@ package org.usfirst.frc.team3618.robot.commands;
 
 import org.usfirst.frc.team3618.robot.Robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,9 +24,11 @@ public class TeleOpIntakeCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.m_oi.functionController.getRawButton(3)) {
+    	if (Robot.m_oi.driveController.getTriggerAxis(Hand.kLeft) > 0  && Robot.m_oi.driveController.getTriggerAxis(Hand.kRight) > 0) {
+    		Robot.kIntakeSubsystem.move(0);
+    	} else if (Robot.m_oi.driveController.getTriggerAxis(Hand.kRight) > 0) {
     		Robot.kIntakeSubsystem.move(Robot.kIntakeSubsystem.INTAKE_SPEED);
-    	} else if (Robot.m_oi.functionController.getRawButton(4)) {
+    	} else if (Robot.m_oi.driveController.getTriggerAxis(Hand.kLeft) > 0) {
     		Robot.kIntakeSubsystem.move(-Robot.kIntakeSubsystem.INTAKE_SPEED);
     	} else {
     		Robot.kIntakeSubsystem.move(0);

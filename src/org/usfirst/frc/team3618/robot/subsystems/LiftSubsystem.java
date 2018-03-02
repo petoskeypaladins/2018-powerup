@@ -18,11 +18,11 @@ public class LiftSubsystem extends Subsystem {
 	public final TalonSRX leftLift = new TalonSRX(RobotMap.LEFT_LIFT);
 	public final TalonSRX rightLift = new TalonSRX(RobotMap.RIGHT_LIFT);
 	public final AnalogInput liftHeight = new AnalogInput(0);
-	final DoubleSolenoid lock = new DoubleSolenoid(1,3);
+	public final DoubleSolenoid lock = new DoubleSolenoid(1,3);
 	final double VOLTS_PER_INCH = (4.2 - 0.253) / (77.0 - 4.25);
 	final double LIFT_HEIGHT_OFFSET = 4.5; // Inches
-	static final Value NOT_LOCKED = Value.kForward;
-	static final Value LOCKED = Value.kReverse;
+	public static final Value NOT_LOCKED = Value.kForward;
+	public static final Value LOCKED = Value.kReverse;
 	static final double MINIMUM = 0.175;
 	static final double MAXIMUM = 0.7;
 	static final double SECOND_STAGE_MINIMUM = 0.25;

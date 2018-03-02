@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3618.robot.subsystems;
 
-import org.usfirst.frc.team3618.robot.Robot;
 import org.usfirst.frc.team3618.robot.RobotMap;
 import org.usfirst.frc.team3618.robot.commands.TeleOpPivotCommand;
 
@@ -14,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class PivotSubsystem extends Subsystem {
-	static final TalonSRX pivotMotor = new TalonSRX(RobotMap.PIVOT_MOTOR);
+	public static final TalonSRX pivotMotor = new TalonSRX(RobotMap.PIVOT_MOTOR);
 	int pivotValue;
 	public final double BOTTOM_ENCODER_SPOT = 2110.0;
 	public boolean holdUp = true;
@@ -53,6 +52,9 @@ public class PivotSubsystem extends Subsystem {
     }
     public void setHoldUp(boolean hold) {
     	holdUp = hold;
+    }
+    public static boolean isUp() {
+    	return pivotMotor.getSensorCollection().isFwdLimitSwitchClosed();
     }
 }
 

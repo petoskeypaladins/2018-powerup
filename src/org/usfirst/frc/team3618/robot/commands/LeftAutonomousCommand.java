@@ -43,7 +43,7 @@ public class LeftAutonomousCommand extends CommandGroup {
 			addSequential(new AutoTurnCommand(90));
 			addSequential(new WaitCommand(), 1);
 			addSequential(new AutoDriveCommand(15,90));
-			addSequential(new AutoPivotCommand(false));
+			addSequential(new AutoPivotCommand(),0.5);
 			addSequential(new WaitCommand(), 1);
 			addSequential(new AutoOuttakeCommand(), 1);
 		  } else if (gameData.charAt(0) == 'R') {
@@ -56,7 +56,7 @@ public class LeftAutonomousCommand extends CommandGroup {
 			addSequential(new AutoLiftCommand (LiftSubsystem.LIFT_SWITCH_HEIGHT));
 			addSequential(new AutoTurnCommand(180));
 			addSequential(new WaitCommand(), 1);
-			addSequential(new AutoPivotCommand(false));
+			addSequential(new AutoPivotCommand(),0.5);
 			addSequential(new WaitCommand(), 1);
 			addSequential(new AutoOuttakeCommand(), 1);
 
