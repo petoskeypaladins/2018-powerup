@@ -17,7 +17,7 @@ public class ClimbSubsystem extends Subsystem {
 	static final TalonSRX leftClimb = new TalonSRX(RobotMap.LEFT_CLIMB);
 	static final TalonSRX rightClimb = new TalonSRX(RobotMap.RIGHT_CLIMB);
 	final double LATCH_ANGLE = 64;
-	final double UNLATCH_ANGLE = 0;
+	final double UNLATCH_ANGLE = -8;
 	// Put methods for controlling this subsystem
     // here. Call these from Commands.
 

@@ -6,6 +6,7 @@ import org.usfirst.frc.team3618.robot.commands.TeleOpPivotCommand;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class PivotSubsystem extends Subsystem {
 	public static final TalonSRX pivotMotor = new TalonSRX(RobotMap.PIVOT_MOTOR);
 	int pivotValue;
+	static final DigitalInput isUpSwitch = new DigitalInput(0);
 	public final double BOTTOM_ENCODER_SPOT = 2110.0;
 	public boolean holdUp = true;
     // Put methods for controlling this subsystem
@@ -24,6 +26,7 @@ public class PivotSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	pivotReset();
+    	pivotMotor.setInverted(true);
     	setDefaultCommand(new TeleOpPivotCommand());
     }
     public int getPivotPosition() {
@@ -54,7 +57,7 @@ public class PivotSubsystem extends Subsystem {
     	holdUp = hold;
     }
     public static boolean isUp() {
-    	return pivotMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    	return !isUpSwitch.get();
     }
 }
 

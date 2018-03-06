@@ -24,7 +24,7 @@ public class LiftSubsystem extends Subsystem {
 	public static final Value NOT_LOCKED = Value.kForward;
 	public static final Value LOCKED = Value.kReverse;
 	static final double MINIMUM = 0.175;
-	static final double MAXIMUM = 0.7;
+	static final double MAXIMUM = 0.8;
 	static final double SECOND_STAGE_MINIMUM = 0.25;
 	public static final double SECOND_STAGE_HEIGHT = 37;
 	public static final double LIFT_SWITCH_HEIGHT = 27;

@@ -21,6 +21,7 @@ import org.usfirst.frc.team3618.robot.commands.AutoTurnCommand;
 import org.usfirst.frc.team3618.robot.commands.CenterAutonomousCommand;
 import org.usfirst.frc.team3618.robot.commands.LeftAutonomousCommand;
 import org.usfirst.frc.team3618.robot.commands.RightAutonomousCommand;
+import org.usfirst.frc.team3618.robot.commands.baselineAuto;
 import org.usfirst.frc.team3618.robot.commands.pivotTester;
 import org.usfirst.frc.team3618.robot.commands.testLiftsSequence;
 import org.usfirst.frc.team3618.robot.subsystems.ClimbSubsystem;
@@ -67,9 +68,9 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Autonomous Left", 1);
 		m_chooser.addObject("Autonomous Center", 2);
 		m_chooser.addObject("Autonomous Right", 3);
-		m_chooser.addObject("Autonomous Left Scale", 4);
-		m_chooser.addObject("Pivot Test", 5);
-		//this is a useless comment to make it compile
+//		m_chooser.addObject("Autonomous Left Scale", 4);
+//		m_chooser.addObject("Lift Test", 5);
+//		m_chooser.addObject("Baseline Auto", 5);
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		CameraServer.getInstance().startAutomaticCapture();
@@ -120,6 +121,9 @@ public class Robot extends TimedRobot {
 	      case 4: m_autonomousCommand = new AutoLeftScaleCommand();
 	      		  break;
 	      case 5: m_autonomousCommand = new pivotTester();
+	      		  break;
+	      case 6: m_autonomousCommand = new baselineAuto();	
+	      		  break;
 	      default: // what to do if you don't choose 1, 2 or 3
 	              break; 
 	    }

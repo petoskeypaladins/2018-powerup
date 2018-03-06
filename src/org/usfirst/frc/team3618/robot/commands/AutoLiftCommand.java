@@ -27,6 +27,7 @@ public class AutoLiftCommand extends Command {
     	error = goal - Robot.kLiftSubsystem.getCurrentLiftHeight();
     	Robot.kLiftSubsystem.moveLift(error / 9);
     	SmartDashboard.putNumber("Current lift voltage",Robot.kLiftSubsystem.getCurrentLiftHeight());
+    	SmartDashboard.putNumber("error", error);
     }
 
     // Make this return true when this Command no longer needs to run execute()

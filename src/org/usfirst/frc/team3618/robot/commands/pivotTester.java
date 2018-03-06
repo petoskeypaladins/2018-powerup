@@ -12,7 +12,7 @@ public class pivotTester extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addSequential(new AutoPivotCommand(),0.5);
+    	addSequential(new AutoLiftCommand(25));
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

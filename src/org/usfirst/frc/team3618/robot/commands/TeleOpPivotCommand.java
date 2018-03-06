@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 @SuppressWarnings("unused")
 public class TeleOpPivotCommand extends Command {
-	final double PIVOT_MOTOR_SPEED = 0.5;
+	final double PIVOT_MOTOR_SPEED = 0.75;
 	
 	
     public TeleOpPivotCommand() {
@@ -55,14 +55,18 @@ public class TeleOpPivotCommand extends Command {
     		Robot.kPivotSubsystem.pivotMotor.set(ControlMode.PercentOutput, -Robot.m_oi.driveController.getY(Hand.kRight));
     	}*/
     	if(Robot.m_oi.functionController.getPOV(0) == 0) {
-    		if(PivotSubsystem.isUp()) {
-    		PivotSubsystem.pivotMotor.set(ControlMode.PercentOutput, PIVOT_MOTOR_SPEED);
-    		}
+    			PivotSubsystem.pivotMotor.set(ControlMode.PercentOutput, -PIVOT_MOTOR_SPEED);
+    		
     	} else if (Robot.m_oi.functionController.getPOV(0) == 180) {
-    		PivotSubsystem.pivotMotor.set(ControlMode.PercentOutput, -PIVOT_MOTOR_SPEED);
+    		if(PivotSubsystem.isUp()) {
+    			PivotSubsystem.pivotMotor.set(ControlMode.PercentOutput, 0);
+    		} else {
+    			PivotSubsystem.pivotMotor.set(ControlMode.PercentOutput, PIVOT_MOTOR_SPEED);
+    		}
     	} else {
     		PivotSubsystem.pivotMotor.set(ControlMode.PercentOutput, 0);
     	}
+    	SmartDashboard.putBoolean("is up", PivotSubsystem.isUp());
     }
 
     // Make this return true when this Command no longer needs to run execute()

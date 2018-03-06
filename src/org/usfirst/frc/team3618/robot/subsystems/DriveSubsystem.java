@@ -111,7 +111,7 @@ public class DriveSubsystem extends Subsystem {
 	}
 
 	public boolean getIsInLowGear() {
-		return leftDriveSolenoid.get();
+		return !leftDriveSolenoid.get();
 	}
 	public void shifToHighGear(boolean highGear) {
 		// true is High gear, false is Low gear

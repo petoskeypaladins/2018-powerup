@@ -25,7 +25,7 @@ public class AutoDriveCommand extends Command {
     	inchGoal = inches;
     	goalAngle = angle;
     	goal = inches * ENCODER_COUNTS_PER_INCH;
-    	minimum = 0.35;
+    	minimum = 0.38;
     }
 
     // Called just before this Command runs the first time

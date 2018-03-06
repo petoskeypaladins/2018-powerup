@@ -9,6 +9,8 @@ package org.usfirst.frc.team3618.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team3618.robot.Robot;
 import org.usfirst.frc.team3618.robot.subsystems.LiftSubsystem;
 
@@ -24,6 +26,7 @@ public class TeleOpDriveCommand extends Command {
 		requires(Robot.kDriveSubsystem);
 	}
 	double originalValue;
+	boolean lastPress;
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
@@ -43,14 +46,22 @@ public class TeleOpDriveCommand extends Command {
 
 		Robot.kDriveSubsystem.drive(-Robot.m_oi.driveController.getY(Hand.kLeft), Robot.m_oi.driveController.getX(Hand.kRight));
 
-		if (Robot.m_oi.driveController.getBumperPressed(Hand.kRight) == true) {
-			Robot.kDriveSubsystem.shifToHighGear(Robot.kDriveSubsystem.getIsInLowGear());
-		}
+//		if (Robot.m_oi.driveController.getBumperPressed(Hand.kRight)) {
+//			Robot.kDriveSubsystem.shifToHighGear(Robot.kDriveSubsystem.getIsInLowGear());
+//		}
+		boolean thisPress = Robot.m_oi.driveController.getRawButton(6);
+    	if(thisPress != lastPress) {
+    		lastPress = thisPress;
+    		if(lastPress) {
+    			Robot.kDriveSubsystem.shifToHighGear(Robot.kDriveSubsystem.getIsInLowGear());
+    		}
+    	}
 
 		if(Robot.m_oi.driveController.getBButtonPressed()) {
 			Robot.kDriveSubsystem.encoderReset();
 			Robot.kDriveSubsystem.resetRobotAngle();
 		}
+		SmartDashboard.putBoolean("In low gear",Robot.kDriveSubsystem.getIsInLowGear());
 	}
 	
 	
