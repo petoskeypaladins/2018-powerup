@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3618.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -21,7 +22,6 @@ import org.usfirst.frc.team3618.robot.commands.AutoTurnCommand;
 import org.usfirst.frc.team3618.robot.commands.CenterAutonomousCommand;
 import org.usfirst.frc.team3618.robot.commands.LeftAutonomousCommand;
 import org.usfirst.frc.team3618.robot.commands.RightAutonomousCommand;
-import org.usfirst.frc.team3618.robot.commands.baselineAuto;
 import org.usfirst.frc.team3618.robot.commands.pivotTester;
 import org.usfirst.frc.team3618.robot.commands.testLiftsSequence;
 import org.usfirst.frc.team3618.robot.subsystems.ClimbSubsystem;
@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
 
 	Command m_autonomousCommand;
 	SendableChooser<Integer> m_chooser = new SendableChooser<>();
-
+	SendableChooser<Integer> priority_chooser = new SendableChooser<>();
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -68,11 +68,16 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Autonomous Left", 1);
 		m_chooser.addObject("Autonomous Center", 2);
 		m_chooser.addObject("Autonomous Right", 3);
+		priority_chooser.addDefault("Switch", 1);
+		priority_chooser.addObject("Scale", 2);
+		
 //		m_chooser.addObject("Autonomous Left Scale", 4);
 //		m_chooser.addObject("Lift Test", 5);
 //		m_chooser.addObject("Baseline Auto", 5);
 		// chooser.addObject("My Auto", new MyAutoCommand());
+		
 		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putData("Priority chooser", priority_chooser);
 		CameraServer.getInstance().startAutomaticCapture();
 		
 	}
@@ -110,25 +115,57 @@ public class Robot extends TimedRobot {
 	    //m_autonomousCommand = m_chooser.getSelected();
 	    // this will construct the commands after Auton starts
 	    
-	    Integer whichChoice = m_chooser.getSelected();
-	    switch(whichChoice) { 
-	      case 1: m_autonomousCommand = new LeftAutonomousCommand(); 
-	              break;
-	      case 2: m_autonomousCommand = new CenterAutonomousCommand();
-	              break; 
-	      case 3: m_autonomousCommand = new RightAutonomousCommand();
-	              break; 
-	      case 4: m_autonomousCommand = new AutoLeftScaleCommand();
-	      		  break;
-	      case 5: m_autonomousCommand = new pivotTester();
-	      		  break;
-	      case 6: m_autonomousCommand = new baselineAuto();	
-	      		  break;
-	      default: // what to do if you don't choose 1, 2 or 3
-	              break; 
+	    Integer positionChoice = m_chooser.getSelected();
+	    Integer priorityChoice = priority_chooser.getSelected();
+	    String gameMsg = DriverStation.getInstance().getGameSpecificMessage();
+	    
+	    if (gameMsg != null && gameMsg.length() >0){
+	    	char switchLoc = gameMsg.charAt(0);
+	    	char scaleLoc = gameMsg.charAt(1);
+	    	
+	    	switch(positionChoice) { 
+		      case 1: 
+		    	  if (switchLoc == 'L' && scaleLoc == 'R'){
+		    		  // TODO add left1 auto
+		    	  }
+		    	  if (switchLoc == 'L' && scaleLoc == 'L'){
+		    		  if (priorityChoice == 1){
+		    			  //TODO add left3 auto
+		    			 
+		    		  }
+		    		  if (priorityChoice == 2){
+		    			  //TODO add left2 auto
+		    		  }
+		    	  }
+		              break;
+		      case 2: 
+		    	  if(switchLoc == 'L'){
+		    	  //TODO add leftcenter auto
+		    	  }
+		    	  if(switchLoc == 'R'){
+		    		  //TODO add rightcenter auto
+		    	  }
+		              break; 
+		      case 3:
+		    	  if (switchLoc == 'R' && scaleLoc == 'L'){
+		    		  // TODO add right1 auto
+		    	  }
+		    	  if (switchLoc == 'R' && scaleLoc == 'R'){
+		    		  if (priorityChoice == 1){
+		    			  //TODO add right3 auto
+		    			 
+		    		  }
+		    		  if (priorityChoice == 2){
+		    			  //TODO add right2 auto
+		    		  }
+		    	  }
+		              break; 
+		     
+		      default: // what to do if you don't choose 1, 2 or 3
+		              break; 
+		    }
+
 	    }
-
-
 	   	kPivotSubsystem.pivotReset();
 	    
 
