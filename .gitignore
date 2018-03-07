@@ -27,3 +27,4 @@ bin/
 build/
 *.xml
 
+src/org/usfirst/frc/team3618/robot/commands/baselineAuto.java

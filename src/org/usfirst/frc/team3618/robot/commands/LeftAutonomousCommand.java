@@ -30,8 +30,8 @@ public class LeftAutonomousCommand extends CommandGroup {
         // arm.
     	String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-                if(gameData.length() > 0)
-                {
+        if(gameData.length() > 0)
+        {
 		  if(gameData.charAt(0) == 'L')
 		  {
 			System.out.println("Started Left");
@@ -43,36 +43,42 @@ public class LeftAutonomousCommand extends CommandGroup {
 			//addSequential(new WaitCommand(), time in seconds);
 			//addSequential(new AutoPivotCommand(), 2);
 			//addSequential(new AutoOuttakeCommand(), 1);
-			//Robot.kDriveSubsystem.resetRobotAngle();
-			addSequential(new AutoDriveCommand(170,0));
-			addSequential(new WaitCommand(), 1);
+			addParallel(new AutoDriveCommand(170,0));
+//			addSequential(new WaitCommand(), 0.1);
 //			addSequential(new AutoPivotCommand(),2);
 			addSequential(new AutoPivotCommand(),1.75);
-			addSequential(new WaitCommand(), 0.5);
+			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));
-			addSequential(new WaitCommand(), 0.5);
+			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoTurnCommand(90));
-			addSequential(new WaitCommand(), 1);
+			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoDriveCommand(15,90));
 //			addSequential(new AutoDriveCommand(15,0));
-			addSequential(new WaitCommand(), 1);
+			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoDropCommand());
-		  } else if (gameData.charAt(0) == 'R') {
-			addSequential(new AutoDriveCommand(220,0));
-			addSequential(new WaitCommand(), 1);
-			addSequential(new AutoPivotCommand(),2);
-			addSequential(new AutoTurnCommand(90));
-			addSequential(new WaitCommand(), 1);
-			addSequential(new AutoDriveCommand(80, 90));
-			addSequential(new WaitCommand(), 1);
-			addSequential(new AutoLiftCommand (LiftSubsystem.LIFT_SWITCH_HEIGHT));
-			addSequential(new AutoTurnCommand(180));
-			addSequential(new WaitCommand(), 1);
-			addSequential(new WaitCommand(), 1);
-			addSequential(new AutoOuttakeCommand(), 1);
-
-			//Put right auto code here
+		  } else if (gameData.charAt(1) == 'L') {
+			// go to scale
+			addParallel(new AutoDriveCommand(297,0));
+			addSequential(new AutoPivotCommand(),1.75);
+      		addSequential(new WaitCommand(), 0.5);
+			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
+      		addSequential(new WaitCommand(), 0.5);
+      		addSequential(new AutoTurnCommand(90));
+      		addSequential(new WaitCommand(), 0.1);
+      		addSequential(new AutoDropCommand());
 		  }
-                }
+		  } else if (gameData.charAt(0) == 'R') {
+			// park between the switch and scale
+			addParallel(new AutoDriveCommand(220,0));
+//			addSequential(new WaitCommand(), 1);
+			addSequential(new AutoPivotCommand(),1.75);
+			addSequential(new AutoTurnCommand(90));
+			addSequential(new WaitCommand(), 0.5);
+			addSequential(new AutoDriveCommand(80, 90));
+			addSequential(new WaitCommand(), 0.5);
+			addSequential(new AutoLiftCommand (LiftSubsystem.LIFT_SWITCH_HEIGHT));
+			//Put right auto code here
+		  	}
+        }
     }
-}
+

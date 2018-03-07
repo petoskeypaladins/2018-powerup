@@ -15,6 +15,7 @@ public class AutoDriveCommand extends Command {
 	double minimum;
 	double inchGoal;
 	double goalAngle;
+	double maxTime;
 	static final double ENCODER_COUNTS_PER_INCH = 217;
 	static final double SCALER = 48000.0;
 	
@@ -25,6 +26,7 @@ public class AutoDriveCommand extends Command {
     	inchGoal = inches;
     	goalAngle = angle;
     	goal = inches * ENCODER_COUNTS_PER_INCH;
+    	maxTime = 5.0 / (220 * ENCODER_COUNTS_PER_INCH) * goal;
     	minimum = 0.38;
     }
 
@@ -50,7 +52,7 @@ public class AutoDriveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.kDriveSubsystem.getLeftCounts() / ENCODER_COUNTS_PER_INCH > inchGoal;
+        return (Robot.kDriveSubsystem.getLeftCounts() / ENCODER_COUNTS_PER_INCH > inchGoal) || (maxTime > timeSinceInitialized());
     }
 
     // Called once after isFinished returns true
