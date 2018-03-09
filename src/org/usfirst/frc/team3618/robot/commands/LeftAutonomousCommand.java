@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class LeftAutonomousCommand extends CommandGroup {
-
-    public LeftAutonomousCommand() {
+	public enum LeftChoices {LeftToScale, LeftToSwitch, LeftBetween};
+	
+    public LeftAutonomousCommand(LeftChoices choice) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
@@ -28,12 +28,7 @@ public class LeftAutonomousCommand extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-        if(gameData.length() > 0)
-        {
-		  if(gameData.charAt(0) == 'L')
-		  {
+    	if(choice == LeftChoices.LeftToSwitch) {
 			System.out.println("Started Left");
 			Robot.kDriveSubsystem.resetRobotAngle();
 			//addSequential(new AutoDriveCommand(inches,degreees);
@@ -56,9 +51,9 @@ public class LeftAutonomousCommand extends CommandGroup {
 //			addSequential(new AutoDriveCommand(15,0));
 			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoDropCommand());
-		  } else if (gameData.charAt(1) == 'L') {
+		  } else if (choice == LeftChoices.LeftToScale) {
 			// go to scale
-			addParallel(new AutoDriveCommand(297,0));
+			addParallel(new AutoDriveCommand(295,0));
 			addSequential(new AutoPivotCommand(),1.75);
       		addSequential(new WaitCommand(), 0.5);
 			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
@@ -66,8 +61,7 @@ public class LeftAutonomousCommand extends CommandGroup {
       		addSequential(new AutoTurnCommand(90));
       		addSequential(new WaitCommand(), 0.1);
       		addSequential(new AutoDropCommand());
-		  }
-		  } else if (gameData.charAt(0) == 'R') {
+		  } else if (choice == LeftChoices.LeftBetween) {
 			// park between the switch and scale
 			addParallel(new AutoDriveCommand(220,0));
 //			addSequential(new WaitCommand(), 1);

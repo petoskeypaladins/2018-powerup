@@ -21,7 +21,9 @@ import org.usfirst.frc.team3618.robot.commands.AutoLiftCommand;
 import org.usfirst.frc.team3618.robot.commands.AutoTurnCommand;
 import org.usfirst.frc.team3618.robot.commands.CenterAutonomousCommand;
 import org.usfirst.frc.team3618.robot.commands.LeftAutonomousCommand;
+import org.usfirst.frc.team3618.robot.commands.LeftAutonomousCommand.LeftChoices;
 import org.usfirst.frc.team3618.robot.commands.RightAutonomousCommand;
+import org.usfirst.frc.team3618.robot.commands.RightAutonomousCommand.RightChoices;
 import org.usfirst.frc.team3618.robot.commands.pivotTester;
 import org.usfirst.frc.team3618.robot.commands.testLiftsSequence;
 import org.usfirst.frc.team3618.robot.subsystems.ClimbSubsystem;
@@ -126,16 +128,19 @@ public class Robot extends TimedRobot {
 	    	switch(positionChoice) { 
 		      case 1: 
 		    	  if (switchLoc == 'L' && scaleLoc == 'R'){
-		    		  // TODO add left1 auto
+		    		  m_autonomousCommand = new LeftAutonomousCommand(LeftChoices.LeftToSwitch);
 		    	  }
 		    	  if (switchLoc == 'L' && scaleLoc == 'L'){
 		    		  if (priorityChoice == 1){
-		    			  //TODO add left3 auto
+		    			  m_autonomousCommand = new LeftAutonomousCommand(LeftChoices.LeftToSwitch);
 		    			 
 		    		  }
 		    		  if (priorityChoice == 2){
-		    			  //TODO add left2 auto
+		    			  m_autonomousCommand = new LeftAutonomousCommand(LeftChoices.LeftToScale);
 		    		  }
+		    	  }
+		    	  if (switchLoc == 'R' && scaleLoc == 'R') {
+		    		  m_autonomousCommand = new LeftAutonomousCommand(LeftChoices.LeftBetween);
 		    	  }
 		              break;
 		      case 2: 
@@ -148,16 +153,19 @@ public class Robot extends TimedRobot {
 		              break; 
 		      case 3:
 		    	  if (switchLoc == 'R' && scaleLoc == 'L'){
-		    		  // TODO add right1 auto
+		    		  m_autonomousCommand = new RightAutonomousCommand(RightChoices.RightToSwitch);
 		    	  }
 		    	  if (switchLoc == 'R' && scaleLoc == 'R'){
 		    		  if (priorityChoice == 1){
-		    			  //TODO add right3 auto
+		    			  m_autonomousCommand = new RightAutonomousCommand(RightChoices.RightToSwitch);
 		    			 
 		    		  }
 		    		  if (priorityChoice == 2){
-		    			  //TODO add right2 auto
+		    			  m_autonomousCommand = new RightAutonomousCommand(RightChoices.RightToScale);
 		    		  }
+		    	  }
+		    	  if(switchLoc == 'L' && switchLoc == 'L') {
+		    		  m_autonomousCommand = new RightAutonomousCommand(RightChoices.RightBetween);
 		    	  }
 		              break; 
 		     

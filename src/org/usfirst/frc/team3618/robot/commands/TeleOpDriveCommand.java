@@ -44,7 +44,7 @@ public class TeleOpDriveCommand extends Command {
 		double powerFromTop = percentageFromTop * (1.0 - MAX_SPEED_WHEN_LIFT_UP) + MAX_SPEED_WHEN_LIFT_UP; // 1.4 to 0.3 [full down to full up, 1.0 is SECOND_STAGE_HEIGHT]
 		speed = speed * (Math.min(1.0, powerFromTop)); // reduce speed when lift is above SECOND_STAGE_HEIGHT
 
-		Robot.kDriveSubsystem.drive(-Robot.m_oi.driveController.getY(Hand.kLeft), Robot.m_oi.driveController.getX(Hand.kRight));
+		Robot.kDriveSubsystem.drive(speed, Robot.m_oi.driveController.getX(Hand.kRight));
 
 //		if (Robot.m_oi.driveController.getBumperPressed(Hand.kRight)) {
 //			Robot.kDriveSubsystem.shifToHighGear(Robot.kDriveSubsystem.getIsInLowGear());

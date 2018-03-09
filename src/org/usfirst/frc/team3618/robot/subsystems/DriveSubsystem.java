@@ -15,6 +15,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,8 +33,9 @@ public class DriveSubsystem extends Subsystem {
 	static final SpeedControllerGroup left = new SpeedControllerGroup(leftMotor1,leftMotor2); 
 	static final SpeedControllerGroup right = new SpeedControllerGroup(rightMotor1,rightMotor2);
 	static final DifferentialDrive driveTrain = new DifferentialDrive(left,right);
-	static final Solenoid leftDriveSolenoid = new Solenoid(0);
-	static final Solenoid rightDriveSolenoid = new Solenoid(2);
+//	static final Solenoid leftDriveSolenoid = new Solenoid(0);
+//	static final Solenoid rightDriveSolenoid = new Solenoid(2);
+	static final DoubleSolenoid driveSolenoid = new DoubleSolenoid(0,2);
 	static final ADIS16448_IMU gyro = new ADIS16448_IMU();
 	static final Compressor compressor = new Compressor();
 	public static final double ENCODER_COUNTS_PER_INCH = 217;
@@ -132,12 +135,15 @@ public class DriveSubsystem extends Subsystem {
 	}
 
 	public boolean getIsInLowGear() {
-		return !leftDriveSolenoid.get();
+		return driveSolenoid.get() == Value.kReverse;
 	}
 	public void shifToHighGear(boolean highGear) {
-		// true is High gear, false is Low gear
-		leftDriveSolenoid.set(highGear);
-		rightDriveSolenoid.set(highGear);
+		// kForward is High gear, kReverse is Low gear
+		if(highGear) {
+			driveSolenoid.set(Value.kForward);
+		} else {
+			driveSolenoid.set(Value.kReverse);
+		}
 		
 	}
 }

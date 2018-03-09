@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class AutoSCurveDrive extends Command {
+public class AutoSDriveCommand extends Command {
 	double goal;
 	double minimum;
 	double maxTime;
@@ -18,7 +18,7 @@ public class AutoSCurveDrive extends Command {
 	double curve;
 	
 
-    public AutoSCurveDrive(double inches, boolean rightSide) {
+    public AutoSDriveCommand(double inches, boolean rightSide) {
     	requires(Robot.kDriveSubsystem);
     	remaining = goal = inches * DriveSubsystem.ENCODER_COUNTS_PER_INCH;
     	maxTime = 8.0 / (220 * DriveSubsystem.ENCODER_COUNTS_PER_INCH) * goal;

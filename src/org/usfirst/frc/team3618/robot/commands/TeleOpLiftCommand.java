@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class TeleOpLiftCommand extends Command {
-	static final double LIFT_SPEED = 0.3;
 	boolean lastPress;
     public TeleOpLiftCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -37,7 +36,7 @@ public class TeleOpLiftCommand extends Command {
 //    			}
 //    		} else {
     			if (Robot.m_oi.functionController.getRawAxis(1) > 0.1 || Robot.m_oi.functionController.getRawAxis(1) < -0.1) {
-    	    		Robot.kLiftSubsystem.moveLift(Robot.m_oi.functionController.getRawAxis(1) * 0.7);
+    	    		Robot.kLiftSubsystem.moveLift(Robot.m_oi.functionController.getRawAxis(1));
     	    	} else {
     	    		Robot.kLiftSubsystem.moveLift(0);
     	    	}
