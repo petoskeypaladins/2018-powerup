@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 @SuppressWarnings("unused")
 public class TeleOpPivotCommand extends Command {
-	final double PIVOT_MOTOR_SPEED = 0.75;
+	final double PIVOT_MOTOR_SPEED = 1;
 	
 	
     public TeleOpPivotCommand() {
