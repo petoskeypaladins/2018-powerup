@@ -2,6 +2,7 @@ package org.usfirst.frc.team3618.robot.commands;
 
 import org.usfirst.frc.team3618.robot.subsystems.LiftSubsystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -9,21 +10,26 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoLeftScaleCommand extends CommandGroup {
 
-    public AutoLeftScaleCommand() {
+	public AutoLeftScaleCommand() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addSequential(new AutoDriveCommand(300,0));
-		addSequential(new WaitCommand(), 0.5);
-		addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
-		addSequential(new WaitCommand(), 0.5);
-		addSequential(new AutoTurnCommand(90));
-		addSequential(new WaitCommand(), 0.5);
-		addSequential(new AutoPivotCommand(), 0.5);
-		addSequential(new WaitCommand(), 0.5);
-		addSequential(new AutoOuttakeCommand(), 1);
-        // To run multiple commands at the same time,
+    	String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+        if(gameData.length() > 0) {
+        	if(gameData.charAt(1) == 'L') {
+        		addSequential(new AutoDriveCommand(297,0));
+        		addSequential(new AutoPivotCommand(),1.75);
+        		addSequential(new WaitCommand(), 0.5);
+				addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
+				addSequential(new WaitCommand(), 0.5);
+				addSequential(new AutoTurnCommand(90));
+				addSequential(new WaitCommand(), 0.5);
+				addSequential(new AutoDropCommand());
+        		}
+            }
+		  // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
@@ -36,3 +42,4 @@ public class AutoLeftScaleCommand extends CommandGroup {
         // arm.
     }
 }
+

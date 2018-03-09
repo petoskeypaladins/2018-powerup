@@ -30,6 +30,7 @@ public class LiftSubsystem extends Subsystem {
 	public static final double LIFT_SWITCH_HEIGHT = 27;
 	public static final double LIFT_SCALE_HEIGHT = 75;
 	public static final double LIFT_BOTTOM_HEIGHT = 0;
+	public static final double MAX_LIFT_TIME = 4; //Time to move from bottom to scale height
 	int liftValue = 0;
 	boolean startedDown;
 	int downTime;

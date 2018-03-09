@@ -35,6 +35,7 @@ public class DriveSubsystem extends Subsystem {
 	static final Solenoid rightDriveSolenoid = new Solenoid(2);
 	static final ADIS16448_IMU gyro = new ADIS16448_IMU();
 	static final Compressor compressor = new Compressor();
+	public static final double ENCODER_COUNTS_PER_INCH = 217;
 	int leftValue = 0;
 	int rightValue = 0;
 	static final double TURN_CLIP = 0.1;
@@ -62,6 +63,10 @@ public class DriveSubsystem extends Subsystem {
 		return rightMotor1.getSensorCollection().getPulseWidthPosition() - rightValue;
 	}
 	
+	public int getAverageCounts() {
+		return (getLeftCounts() - getRightCounts()) / 2;
+	}
+	
 	public double getRobotAngle() {
 		return gyro.getAngleZ();
 	}
@@ -84,7 +89,8 @@ public class DriveSubsystem extends Subsystem {
     	lastSpeed = newSpeed;
     	return(newSpeed);
     }
-	public void driveStraightGyro(double speed,double angle) {
+
+    public void driveStraightGyro(double speed,double angle) {
 		double Kp = 0.15;
 		double turn = Kp*(getRobotAngle()-angle); 
 		if (turn > TURN_CLIP)
@@ -93,6 +99,21 @@ public class DriveSubsystem extends Subsystem {
 			turn = -TURN_CLIP;
 		driveTrain.arcadeDrive(accelRamp(speed),turn);
 	}
+	
+	public void driveSCurve(double speed,double progress,double totalDistance,double curve) {
+		double Kp = 0.18; // how hard do we work to follow the desired vs actual Gyro Angle?
+		// we need our heading to start at zero (sin(0) = 0), increase to a maximum
+		// value as we get half-way to the totalDistance we'll travel, then
+		// go back to zero.
+		// That is 1/2 of the period (so PI) of the sine function, so we'll pro-rate changing
+		// between 0 and PI as we go from 0 to totalDistance
+		double angle = Math.sin((Math.PI / totalDistance) * progress);
+		angle = Math.toDegrees(angle); // convert radians to degrees
+		angle = angle * curve; // now apply the curve "effort" (which also can be negative to be left vs right)
+		double turn = Kp*(getRobotAngle()-angle); // error between angle we want and the angle of the robot
+		driveTrain.arcadeDrive(accelRamp(speed), turn);
+	}
+	
 	public void drive(double speed,double angle) {
 		driveTrain.arcadeDrive(accelRamp(speed), angle);
 	}
