@@ -34,7 +34,7 @@ public class AutoDriveCommand extends Command {
     protected void initialize() {
 //    	Robot.kDriveSubsystem.resetRobotAngle();
     	Robot.kDriveSubsystem.encoderReset();
-    	Robot.kDriveSubsystem.shifToHighGear(false);
+    	Robot.kDriveSubsystem.shifToHighGear(true);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -52,7 +52,7 @@ public class AutoDriveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Robot.kDriveSubsystem.getLeftCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH > inchGoal) || (maxTime > timeSinceInitialized());
+        return (Robot.kDriveSubsystem.getLeftCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH > inchGoal) || (maxTime < timeSinceInitialized());
     }
 
     // Called once after isFinished returns true

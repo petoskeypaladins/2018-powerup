@@ -12,9 +12,11 @@ public class AutoTurnCommand extends Command {
 	double goal;
 	public double difference;
 	static final double MINIMUM_POWER = 0.39;
+	static final double MINIMUM_POWER_UNDER_90 = 0.42;
 	boolean done;
 	boolean lastDone;
 	double timeCompleted;
+	double minimum;
 	
     public AutoTurnCommand(double angle) {
         // Use requires() here to declare subsystem dependencies
@@ -22,6 +24,9 @@ public class AutoTurnCommand extends Command {
     	goal = angle;
     	lastDone = false;
     	requires(Robot.kDriveSubsystem);
+    	minimum = MINIMUM_POWER_UNDER_90;
+    	if (Math.abs(goal - Robot.kDriveSubsystem.getRobotAngle()) > 80)
+    		minimum = MINIMUM_POWER;
     }
 
     // Called just before this Command runs the first time
@@ -39,10 +44,10 @@ public class AutoTurnCommand extends Command {
     	} else if (difference < -0.6) {
     		difference = -0.6;
     	}
-    	if (difference > 0 && difference < MINIMUM_POWER) {
-    		difference = MINIMUM_POWER;
-    	} else if (difference < 0 && difference > -MINIMUM_POWER) {
-    		difference = -MINIMUM_POWER;
+    	if (difference > 0 && difference < minimum) {
+    		difference = minimum;
+    	} else if (difference < 0 && difference > -minimum) {
+    		difference = -minimum;
     	}
     	Robot.kDriveSubsystem.turn(difference);
     	SmartDashboard.putNumber("difference value", difference);

@@ -26,7 +26,7 @@ public class RobotMap {
 	public static final int LEFT_INTAKE = 11;
 	public static final int RIGHT_INTAKE = 4;
 	public static final int LEFT_CLIMB = 12;
-	public static final int RIGHT_CLIMB = 3 ;
+	public static final int RIGHT_CLIMB = 3;
 	public static final int PIVOT_MOTOR = 10;
 
 	//Solenoids

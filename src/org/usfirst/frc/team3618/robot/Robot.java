@@ -20,6 +20,7 @@ import org.usfirst.frc.team3618.robot.commands.AutoLeftScaleCommand;
 import org.usfirst.frc.team3618.robot.commands.AutoLiftCommand;
 import org.usfirst.frc.team3618.robot.commands.AutoTurnCommand;
 import org.usfirst.frc.team3618.robot.commands.CenterAutonomousCommand;
+import org.usfirst.frc.team3618.robot.commands.CenterAutonomousCommand.CenterChoices;
 import org.usfirst.frc.team3618.robot.commands.LeftAutonomousCommand;
 import org.usfirst.frc.team3618.robot.commands.LeftAutonomousCommand.LeftChoices;
 import org.usfirst.frc.team3618.robot.commands.RightAutonomousCommand;
@@ -145,10 +146,10 @@ public class Robot extends TimedRobot {
 		              break;
 		      case 2: 
 		    	  if(switchLoc == 'L'){
-		    	  //TODO add leftcenter auto
+		    		  m_autonomousCommand = new CenterAutonomousCommand(CenterChoices.CenterLeft);
 		    	  }
 		    	  if(switchLoc == 'R'){
-		    		  //TODO add rightcenter auto
+		    		  m_autonomousCommand = new CenterAutonomousCommand(CenterChoices.CenterRight); 
 		    	  }
 		              break; 
 		      case 3:

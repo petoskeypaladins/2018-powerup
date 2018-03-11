@@ -33,14 +33,13 @@ public class DriveSubsystem extends Subsystem {
 	static final SpeedControllerGroup left = new SpeedControllerGroup(leftMotor1,leftMotor2); 
 	static final SpeedControllerGroup right = new SpeedControllerGroup(rightMotor1,rightMotor2);
 	static final DifferentialDrive driveTrain = new DifferentialDrive(left,right);
-//	static final Solenoid leftDriveSolenoid = new Solenoid(0);
-//	static final Solenoid rightDriveSolenoid = new Solenoid(2);
 	static final DoubleSolenoid driveSolenoid = new DoubleSolenoid(0,2);
 	static final ADIS16448_IMU gyro = new ADIS16448_IMU();
 	static final Compressor compressor = new Compressor();
 	public static final double ENCODER_COUNTS_PER_INCH = 217;
 	int leftValue = 0;
 	int rightValue = 0;
+	public boolean IsSDriveDone = false;
 	static final double TURN_CLIP = 0.1;
 
 	double lastSpeed = 0;
@@ -67,7 +66,7 @@ public class DriveSubsystem extends Subsystem {
 	}
 	
 	public int getAverageCounts() {
-		return (getLeftCounts() - getRightCounts()) / 2;
+		return (getLeftCounts() + getRightCounts()) / 2;
 	}
 	
 	public double getRobotAngle() {
@@ -95,7 +94,7 @@ public class DriveSubsystem extends Subsystem {
 
     public void driveStraightGyro(double speed,double angle) {
 		double Kp = 0.15;
-		double turn = Kp*(getRobotAngle()-angle); 
+		double turn = Kp*(angle-getRobotAngle()); 
 		if (turn > TURN_CLIP)
 			turn = TURN_CLIP;
 		else if (turn < -TURN_CLIP)
@@ -104,17 +103,17 @@ public class DriveSubsystem extends Subsystem {
 	}
 	
 	public void driveSCurve(double speed,double progress,double totalDistance,double curve) {
-		double Kp = 0.18; // how hard do we work to follow the desired vs actual Gyro Angle?
+		double Kp = 0.12; // how hard do we work to follow the desired vs actual Gyro Angle?
 		// we need our heading to start at zero (sin(0) = 0), increase to a maximum
 		// value as we get half-way to the totalDistance we'll travel, then
 		// go back to zero.
 		// That is 1/2 of the period (so PI) of the sine function, so we'll pro-rate changing
 		// between 0 and PI as we go from 0 to totalDistance
 		double angle = Math.sin((Math.PI / totalDistance) * progress);
-		angle = Math.toDegrees(angle); // convert radians to degrees
 		angle = angle * curve; // now apply the curve "effort" (which also can be negative to be left vs right)
-		double turn = Kp*(getRobotAngle()-angle); // error between angle we want and the angle of the robot
+		double turn = Kp*(angle-getRobotAngle()); // error between angle we want and the angle of the robot
 		driveTrain.arcadeDrive(accelRamp(speed), turn);
+		IsSDriveDone = (progress >= totalDistance);
 	}
 	
 	public void drive(double speed,double angle) {

@@ -14,16 +14,10 @@ public class CenterAutonomousCommand extends CommandGroup {
 	}
     public CenterAutonomousCommand(CenterChoices choice) {
 
-    	if(choice == CenterChoices.CenterLeft) {
-    		addParallel(new AutoSDriveCommand(173,false));
-    	} else {
-    		addParallel(new AutoSDriveCommand(173,true));
-    	}
-//		addParallel(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));
-//		addSequential(new AutoPivotCommand(),1.75);
-//		addSequential(new WaitCommand(), 0.1);
-//		addSequential(new AutoDropCommand());
-        
-       
+   		addParallel(new AutoSDriveCommand(142,(choice != CenterChoices.CenterLeft)));
+		addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));
+		addSequential(new AutoPivotCommand(),2.10);
+		addSequential(new AutoIsSDriveCompleted());
+		addSequential(new AutoOuttakeCommand(),2);
     }
 }

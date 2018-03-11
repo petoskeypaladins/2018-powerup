@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoSDriveCommand extends Command {
 	double goal;
-	double minimum;
+	final double MINIMUM = 0.41;
 	double maxTime;
-	static final double SCALER = 48000.0;
+	static final double SCALER = 38000.0;
 	double remaining;
 	double curve;
 	
@@ -21,9 +21,8 @@ public class AutoSDriveCommand extends Command {
     public AutoSDriveCommand(double inches, boolean rightSide) {
     	requires(Robot.kDriveSubsystem);
     	remaining = goal = inches * DriveSubsystem.ENCODER_COUNTS_PER_INCH;
-    	maxTime = 8.0 / (220 * DriveSubsystem.ENCODER_COUNTS_PER_INCH) * goal;
-    	minimum = 0.38;
-    	curve = 0.7; // not more than 1; how agressive is the curve we turn (how far sideways will we go?)
+    	maxTime = 10.0 / (220 * DriveSubsystem.ENCODER_COUNTS_PER_INCH) * goal;
+    	curve = 40; // max degrees in s-curve
     	if (!rightSide)
     		curve *= -1; // left is opposite sign
     }
@@ -32,23 +31,23 @@ public class AutoSDriveCommand extends Command {
     protected void initialize() {
     	Robot.kDriveSubsystem.encoderReset();
     	Robot.kDriveSubsystem.resetRobotAngle(); // need to always start with zero when doing S-Curve
-    	Robot.kDriveSubsystem.shifToHighGear(false);
+    	Robot.kDriveSubsystem.shifToHighGear(true);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	remaining = goal - Robot.kDriveSubsystem.getAverageCounts();
     	double power = remaining / SCALER;
-    	if(power < minimum) {
-    		power = minimum;
+    	if(power < MINIMUM) {
+    		power = MINIMUM;
     	}
+    	SmartDashboard.putNumber("Power", power);
     	SmartDashboard.putNumber("Inches", Robot.kDriveSubsystem.getAverageCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH);
    		Robot.kDriveSubsystem.driveSCurve(power,goal-remaining,goal,curve); 
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (remaining / DriveSubsystem.ENCODER_COUNTS_PER_INCH <= 0) || (maxTime > timeSinceInitialized());
     }
 
     // Called once after isFinished returns true
