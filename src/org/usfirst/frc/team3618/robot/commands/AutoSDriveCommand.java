@@ -48,6 +48,7 @@ public class AutoSDriveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        return (remaining / DriveSubsystem.ENCODER_COUNTS_PER_INCH <= 0) || (maxTime < timeSinceInitialized());
     }
 
     // Called once after isFinished returns true
