@@ -42,7 +42,7 @@ public class RightAutonomousCommand extends CommandGroup {
 			addSequential(new AutoPivotCommand(),1.75);
       		addSequential(new WaitCommand(), 0.5);
 			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
-      		addSequential(new WaitCommand(), 0.5);
+      		addSequential(new WaitCommand(), 0.2);
       		addSequential(new AutoTurnCommand(-45));
       		addSequential(new WaitCommand(), 0.1);
       		addSequential(new AutoOuttakeCommand(),2);

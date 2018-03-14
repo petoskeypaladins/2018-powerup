@@ -27,7 +27,7 @@ public class LiftSubsystem extends Subsystem {
 	static final double MAXIMUM = 0.8;
 	static final double SECOND_STAGE_MINIMUM = 0.25;
 	public static final double SECOND_STAGE_HEIGHT = 37;
-	public static final double LIFT_SWITCH_HEIGHT = 27;
+	public static final double LIFT_SWITCH_HEIGHT = 26;
 	public static final double LIFT_SCALE_HEIGHT = 75;
 	public static final double LIFT_BOTTOM_HEIGHT = 0;
 	public static final double MAX_LIFT_TIME = 4; //Time to move from bottom to scale height
