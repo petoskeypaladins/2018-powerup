@@ -12,7 +12,7 @@ public class AutoTurnCommand extends Command {
 	double goal;
 	public double difference;
 	static final double MINIMUM_POWER = 0.39;
-	static final double MINIMUM_POWER_UNDER_90 = 0.42;
+	static final double MINIMUM_POWER_UNDER_90 = 0.44;
 	boolean done;
 	boolean lastDone;
 	double timeCompleted;

@@ -38,7 +38,7 @@ public class RightAutonomousCommand extends CommandGroup {
 			addSequential(new AutoDropCommand());
 		} else if (choice == RightChoices.RightToScale) {
 			// go to scale
-			addParallel(new AutoDriveCommand(243,0));
+			addParallel(new AutoDriveCommand(232,0));
 			addSequential(new AutoPivotCommand(),1.75);
       		addSequential(new WaitCommand(), 0.5);
 			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));

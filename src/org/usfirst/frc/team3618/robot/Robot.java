@@ -143,6 +143,10 @@ public class Robot extends TimedRobot {
 		    	  if (switchLoc == 'R' && scaleLoc == 'R') {
 		    		  m_autonomousCommand = new LeftAutonomousCommand(LeftChoices.LeftBetween);
 		    	  }
+		    	  if (scaleLoc == 'L' && priorityChoice == 2) {
+		    		  m_autonomousCommand = new LeftAutonomousCommand(LeftChoices.LeftToScale);
+		    	  }
+		    	  
 		              break;
 		      case 2: 
 		    	  if(switchLoc == 'L'){
@@ -165,8 +169,11 @@ public class Robot extends TimedRobot {
 		    			  m_autonomousCommand = new RightAutonomousCommand(RightChoices.RightToScale);
 		    		  }
 		    	  }
-		    	  if(switchLoc == 'L' && switchLoc == 'L') {
+		    	  if(switchLoc == 'L' && scaleLoc == 'L') {
 		    		  m_autonomousCommand = new RightAutonomousCommand(RightChoices.RightBetween);
+		    	  }
+		    	  if(scaleLoc == 'R' && priorityChoice == 2) {
+		    		  m_autonomousCommand = new RightAutonomousCommand(RightChoices.RightToScale);
 		    	  }
 		              break; 
 		     
