@@ -3,6 +3,8 @@ package org.usfirst.frc.team3618.robot.commands;
 import org.usfirst.frc.team3618.robot.Robot;
 import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -11,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoSDriveCommand extends Command {
 	double goal;
-	final double MINIMUM = 0.41;
+	final double MINIMUM = 0.45;
 	double maxTime;
 	static final double SCALER = 38000.0;
 	double remaining;
@@ -22,7 +24,12 @@ public class AutoSDriveCommand extends Command {
     	requires(Robot.kDriveSubsystem);
     	remaining = goal = inches * DriveSubsystem.ENCODER_COUNTS_PER_INCH;
     	maxTime = 10.0 / (220 * DriveSubsystem.ENCODER_COUNTS_PER_INCH) * goal;
-    	curve = 40; // max degrees in s-curve
+    	if(!rightSide && DriverStation.getInstance().getAlliance() == Alliance.Red) {
+    		curve = 44;
+    	} else {
+    		curve = 40;
+    	}
+//    	curve = 40; // max degrees in s-curve
     	if (!rightSide)
     		curve *= -1; // left is opposite sign
     }
@@ -41,6 +48,7 @@ public class AutoSDriveCommand extends Command {
     	if(power < MINIMUM) {
     		power = MINIMUM;
     	}
+    	SmartDashboard.putNumber("Curve", curve);
     	SmartDashboard.putNumber("Power", power);
     	SmartDashboard.putNumber("Inches", Robot.kDriveSubsystem.getAverageCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH);
    		Robot.kDriveSubsystem.driveSCurve(power,goal-remaining,goal,curve); 

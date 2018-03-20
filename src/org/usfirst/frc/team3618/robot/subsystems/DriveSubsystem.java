@@ -10,6 +10,7 @@ package org.usfirst.frc.team3618.robot.subsystems;
 import org.usfirst.frc.team3618.robot.RobotMap;
 import org.usfirst.frc.team3618.robot.commands.TeleOpDriveCommand;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.analog.adis16448.frc.ADIS16448_IMU;
@@ -26,13 +27,13 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class DriveSubsystem extends Subsystem {
-	static final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_1);
-	static final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_2);
-	static final WPI_TalonSRX rightMotor1 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_1);
-	static final WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_2);
-	static final SpeedControllerGroup left = new SpeedControllerGroup(leftMotor1,leftMotor2); 
-	static final SpeedControllerGroup right = new SpeedControllerGroup(rightMotor1,rightMotor2);
-	static final DifferentialDrive driveTrain = new DifferentialDrive(left,right);
+	public static final WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_1);
+	public static final WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_2);
+	public static final WPI_TalonSRX rightMotor1 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_1);
+	public static final WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_2);
+//	static final SpeedControllerGroup left = new SpeedControllerGroup(leftMotor1,leftMotor2); 
+//	static final SpeedControllerGroup right = new SpeedControllerGroup(rightMotor1,rightMotor2);
+	public static final DifferentialDrive driveTrain = new DifferentialDrive(leftMotor1,rightMotor1);
 	static final DoubleSolenoid driveSolenoid = new DoubleSolenoid(0,2);
 	static final ADIS16448_IMU gyro = new ADIS16448_IMU();
 	static final Compressor compressor = new Compressor();
@@ -48,8 +49,15 @@ public class DriveSubsystem extends Subsystem {
 	public DriveSubsystem() {
 		gyro.calibrate();
 		resetRobotAngle();
-		leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
-		rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
+		leftMotor2.follow(leftMotor1);
+		rightMotor2.follow(rightMotor1);
+		leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,10);
+		rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,10);
+		leftMotor1.setSafetyEnabled(false);
+		rightMotor1.setSafetyEnabled(false);
+		leftMotor2.setSafetyEnabled(false);
+		rightMotor2.setSafetyEnabled(false);
+		driveTrain.setSafetyEnabled(false);
 		encoderReset();
 	}
 	
@@ -101,7 +109,6 @@ public class DriveSubsystem extends Subsystem {
 			turn = -TURN_CLIP;
 		driveTrain.arcadeDrive(accelRamp(speed),turn);
 	}
-	
 	public void driveSCurve(double speed,double progress,double totalDistance,double curve) {
 		double Kp = 0.12; // how hard do we work to follow the desired vs actual Gyro Angle?
 		// we need our heading to start at zero (sin(0) = 0), increase to a maximum
@@ -109,7 +116,8 @@ public class DriveSubsystem extends Subsystem {
 		// go back to zero.
 		// That is 1/2 of the period (so PI) of the sine function, so we'll pro-rate changing
 		// between 0 and PI as we go from 0 to totalDistance
-		double angle = Math.sin((Math.PI / totalDistance) * progress);
+		// change the multiplier on totalDistance to be prorate the Sin to drive back towards center
+		double angle = Math.sin((Math.PI / (totalDistance * 0.9)) * progress);
 		angle = angle * curve; // now apply the curve "effort" (which also can be negative to be left vs right)
 		double turn = Kp*(angle-getRobotAngle()); // error between angle we want and the angle of the robot
 		driveTrain.arcadeDrive(accelRamp(speed), turn);
@@ -129,6 +137,7 @@ public class DriveSubsystem extends Subsystem {
 		driveTrain.arcadeDrive(0, rate);
 	}
 	public void encoderReset() {
+		//CSA Alex is would like to know where, if ever this is used. 
 		leftValue = leftMotor1.getSensorCollection().getPulseWidthPosition();
 		rightValue = rightMotor1.getSensorCollection().getPulseWidthPosition();
 	}

@@ -38,14 +38,14 @@ public class LeftAutonomousCommand extends CommandGroup {
 			//addSequential(new WaitCommand(), time in seconds);
 			//addSequential(new AutoPivotCommand(), 2);
 			//addSequential(new AutoOuttakeCommand(), 1);
-			addParallel(new AutoDriveCommand(170,0));
+			addParallel(new AutoDriveCommand(158,0));
 //			addSequential(new WaitCommand(), 0.1);
 //			addSequential(new AutoPivotCommand(),2);
 			addSequential(new AutoPivotCommand(),1.75);
 			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));
 			addSequential(new WaitCommand(), 0.1);
-			addSequential(new AutoTurnCommand(90));
+			addSequential(new AutoTurnCommand(90),4);
 			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoDriveCommand(15,90));
 //			addSequential(new AutoDriveCommand(15,0));
@@ -53,12 +53,12 @@ public class LeftAutonomousCommand extends CommandGroup {
 			addSequential(new AutoOuttakeCommand(), 1);
 		  } else if (choice == LeftChoices.LeftToScale) {
 			// go to scale
-			addParallel(new AutoDriveCommand(231,0));
+			addParallel(new AutoDriveCommand(226,0));
 			addSequential(new AutoPivotCommand(),1.75);
       		addSequential(new WaitCommand(), 0.5);
 			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
       		addSequential(new WaitCommand(), 0.1);
-      		addSequential(new AutoTurnCommand(45),5);
+      		addSequential(new AutoTurnCommand(55),5);
       		addSequential(new WaitCommand(), 0.1);
       		addSequential(new AutoOuttakeCommand(),2);
 		  } else if (choice == LeftChoices.LeftBetween) {

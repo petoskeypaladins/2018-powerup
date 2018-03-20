@@ -24,19 +24,19 @@ public class ClimbSubsystem extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	unlatch();
+//    	unlatch();
     	setDefaultCommand(new TeleOpClimbCommand());
     }
     public void move(double speed) {
 	    leftClimb.set(ControlMode.PercentOutput, speed);
 	    rightClimb.set(ControlMode.PercentOutput, speed);
     }
-    public void latch() {
-    	latchServo.setAngle(LATCH_ANGLE);
-    }
-    public void unlatch() {
-    	latchServo.setAngle(UNLATCH_ANGLE);
-    }
+//    public void latch() {
+//    	latchServo.setAngle(LATCH_ANGLE);
+//    }
+//    public void unlatch() {
+//    	latchServo.setAngle(UNLATCH_ANGLE);
+//    }
     public void setLatch(double degrees) {
     	latchServo.setAngle(degrees);
     }

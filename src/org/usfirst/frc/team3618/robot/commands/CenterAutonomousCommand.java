@@ -14,10 +14,11 @@ public class CenterAutonomousCommand extends CommandGroup {
 	}
     public CenterAutonomousCommand(CenterChoices choice) {
 
-   		addParallel(new AutoSDriveCommand(142,(choice != CenterChoices.CenterLeft)));
+   		addParallel(new AutoSDriveCommand(140,(choice != CenterChoices.CenterLeft)),10);
 		addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));
 		addSequential(new AutoPivotCommand(),2.10);
-		addSequential(new AutoIsSDriveCompleted());
+//		addSequential(new AutoIsSDriveCompleted());
+		addSequential(new WaitCommand(),0.5);
 		addSequential(new AutoOuttakeCommand(),2);
     }
 }

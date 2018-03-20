@@ -30,7 +30,11 @@ public class TeleOpDriveCommand extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		
+		Robot.kDriveSubsystem.leftMotor1.setSafetyEnabled(false);
+		Robot.kDriveSubsystem.rightMotor1.setSafetyEnabled(false);
+		Robot.kDriveSubsystem.leftMotor2.setSafetyEnabled(false);
+		Robot.kDriveSubsystem.rightMotor2.setSafetyEnabled(false);
+		Robot.kDriveSubsystem.driveTrain.setSafetyEnabled(false);
 	}
 
 

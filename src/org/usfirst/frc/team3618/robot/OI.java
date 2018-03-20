@@ -23,13 +23,13 @@ public class OI {
 public final XboxController driveController = new XboxController(0);
 public final Joystick functionController = new Joystick(1);
 
-private Button setToBottomButton = new JoystickButton(functionController, 7);
-private Button setToSwitchButton = new JoystickButton(functionController, 9);
-private Button setToScaleButton = new JoystickButton(functionController, 11);
-
-public OI() {
-	setToBottomButton.whenPressed(new AutoLiftCommand(LiftSubsystem.LIFT_BOTTOM_HEIGHT));
-	setToSwitchButton.whenPressed(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));
-	setToScaleButton.whenPressed(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
-	}
+//private Button setToBottomButton = new JoystickButton(functionController, 7);
+//private Button setToSwitchButton = new JoystickButton(functionController, 9);
+//private Button setToScaleButton = new JoystickButton(functionController, 11);
+//
+//public OI() {
+//	setToBottomButton.whenPressed(new AutoLiftCommand(LiftSubsystem.LIFT_BOTTOM_HEIGHT));
+//	setToSwitchButton.whenPressed(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));
+//	setToScaleButton.whenPressed(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
+//	}
 }

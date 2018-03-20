@@ -26,31 +26,31 @@ public class TeleOpClimbCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.m_oi.functionController.getRawButton(1)) {
-    		if (timer > 10)
-    			Robot.kClimbSubsystem.move(0.35);
-    		timer++;
-    		Robot.kLiftSubsystem.unlock();
-    	} else {
-    		timer = 0;
-    		Robot.kClimbSubsystem.move(0);
-    		Robot.kLiftSubsystem.lock();
-    	}
-    	boolean thisPress6 = Robot.m_oi.functionController.getRawButton(6);
-    	if(thisPress6 != lastPress6) {
-    		lastPress6 = thisPress6;
-    		if(lastPress6 && Robot.kLiftSubsystem.isLiftDown()) {
-    			Robot.kClimbSubsystem.latch();
-    		}
-    	}
-    	boolean thisPress5 = Robot.m_oi.functionController.getRawButton(5);
-    	if(thisPress5 != lastPress5) {
-    		lastPress5 = thisPress5;
-    		if(lastPress5) {
-    			Robot.kClimbSubsystem.unlatch();
-    		}
-    	}
-    	SmartDashboard.putNumber("Servo Angle", ClimbSubsystem.latchServo.getAngle());
+//    	if(Robot.m_oi.functionController.getRawButton(1)) {
+//    		if (timer > 10)
+//    			Robot.kClimbSubsystem.move(0.35);
+//    		timer++;
+//    		Robot.kLiftSubsystem.unlock();
+//    	} else {
+//    		timer = 0;
+//    		Robot.kClimbSubsystem.move(0);
+//    		Robot.kLiftSubsystem.lock();
+//    	}
+//    	boolean thisPress6 = Robot.m_oi.functionController.getRawButton(6);
+//    	if(thisPress6 != lastPress6) {
+//    		lastPress6 = thisPress6;
+//    		if(lastPress6 && Robot.kLiftSubsystem.isLiftDown()) {
+//    			Robot.kClimbSubsystem.latch();
+//    		}
+//    	}
+//    	boolean thisPress5 = Robot.m_oi.functionController.getRawButton(5);
+//    	if(thisPress5 != lastPress5) {
+//    		lastPress5 = thisPress5;
+//    		if(lastPress5) {
+//    			Robot.kClimbSubsystem.unlatch();
+//    		}
+//    	}
+//    	SmartDashboard.putNumber("Servo Angle", ClimbSubsystem.latchServo.getAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()

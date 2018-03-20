@@ -28,7 +28,7 @@ public class LiftSubsystem extends Subsystem {
 	static final double SECOND_STAGE_MINIMUM = 0.25;
 	public static final double SECOND_STAGE_HEIGHT = 37;
 	public static final double LIFT_SWITCH_HEIGHT = 26;
-	public static final double LIFT_SCALE_HEIGHT = 75;
+	public static final double LIFT_SCALE_HEIGHT = 74.5;
 	public static final double LIFT_BOTTOM_HEIGHT = 0;
 	public static final double MAX_LIFT_TIME = 4; //Time to move from bottom to scale height
 	int liftValue = 0;
@@ -91,8 +91,13 @@ public class LiftSubsystem extends Subsystem {
        		if(externalUnlock) {
        			lock.set(NOT_LOCKED);
        			if (counter > 10) {
-		    		leftLift.set(ControlMode.PercentOutput, -0.1);
-		       		rightLift.set(ControlMode.PercentOutput, -0.1);
+//       				if(getCurrentLiftHeight() <  {
+       					leftLift.set(ControlMode.PercentOutput, -0.1);
+       					rightLift.set(ControlMode.PercentOutput, -0.1);
+//       				} else {
+//       					leftLift.set(ControlMode.PercentOutput, 0);
+//       					rightLift.set(ControlMode.PercentOutput, 0);
+//       				}
        			}
        			counter++;
        		} else {
@@ -117,8 +122,10 @@ public class LiftSubsystem extends Subsystem {
    				direction = -MAXIMUM;
    			}
    			if ((direction < 0 && downTime > 20) || (direction > 0)) {
-	    		leftLift.set(ControlMode.PercentOutput, direction);
-	       		rightLift.set(ControlMode.PercentOutput, direction);
+//   				if(getCurrentLiftHeight() <= 74 || direction > 0) {
+   					leftLift.set(ControlMode.PercentOutput, direction);
+   					rightLift.set(ControlMode.PercentOutput, direction);
+//   				}
    			}
    			downTime++;
 	       	lock.set(NOT_LOCKED);

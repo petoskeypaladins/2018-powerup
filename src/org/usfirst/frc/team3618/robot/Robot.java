@@ -146,6 +146,9 @@ public class Robot extends TimedRobot {
 		    	  if (scaleLoc == 'L' && priorityChoice == 2) {
 		    		  m_autonomousCommand = new LeftAutonomousCommand(LeftChoices.LeftToScale);
 		    	  }
+		    	  if(switchLoc == 'L' && priorityChoice == 1) {
+		    		  m_autonomousCommand = new LeftAutonomousCommand(LeftChoices.LeftToSwitch);
+		    	  }
 		    	  
 		              break;
 		      case 2: 
@@ -174,6 +177,9 @@ public class Robot extends TimedRobot {
 		    	  }
 		    	  if(scaleLoc == 'R' && priorityChoice == 2) {
 		    		  m_autonomousCommand = new RightAutonomousCommand(RightChoices.RightToScale);
+		    	  }
+		    	  if(switchLoc == 'R' && priorityChoice == 1) {
+		    		  m_autonomousCommand = new RightAutonomousCommand(RightChoices.RightToSwitch);
 		    	  }
 		              break; 
 		     
@@ -219,6 +225,8 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 	   	kPivotSubsystem.pivotReset();
+	   	
+	   	
 	}
 
 	/**
@@ -226,8 +234,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("left encoder", Robot.kDriveSubsystem.getLeftCounts());
-		SmartDashboard.putNumber("right encoder", Robot.kDriveSubsystem.getRightCounts());
+//		SmartDashboard.putNumber("left encoder", Robot.kDriveSubsystem.getLeftCounts());
+//		SmartDashboard.putNumber("right encoder", Robot.kDriveSubsystem.getRightCounts());
 		SmartDashboard.putNumber("Gyro Angle", Robot.kDriveSubsystem.getRobotAngle());
 		Scheduler.getInstance().run();
 	}
