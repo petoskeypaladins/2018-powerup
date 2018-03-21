@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team3618.robot.Robot;
-import org.usfirst.frc.team3618.robot.subsystems.LiftSubsystem;
+import org.usfirst.frc.team3618.robot.subsystems.DriveSubsystem;
 
 /**
  * An example command.  You can replace me with your own command.
@@ -30,11 +30,11 @@ public class TeleOpDriveCommand extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Robot.kDriveSubsystem.leftMotor1.setSafetyEnabled(false);
-		Robot.kDriveSubsystem.rightMotor1.setSafetyEnabled(false);
-		Robot.kDriveSubsystem.leftMotor2.setSafetyEnabled(false);
-		Robot.kDriveSubsystem.rightMotor2.setSafetyEnabled(false);
-		Robot.kDriveSubsystem.driveTrain.setSafetyEnabled(false);
+		DriveSubsystem.leftMotor1.setSafetyEnabled(false);
+		DriveSubsystem.rightMotor1.setSafetyEnabled(false);
+		DriveSubsystem.leftMotor2.setSafetyEnabled(false);
+		DriveSubsystem.rightMotor2.setSafetyEnabled(false);
+		DriveSubsystem.driveTrain.setSafetyEnabled(false);
 	}
 
 
@@ -42,11 +42,11 @@ public class TeleOpDriveCommand extends Command {
 	@Override
 	protected void execute() {
 		// read Robot.kLiftSubsystem.getCurrentLiftHeight() and reduce speed to prevent tipping over
-		double speed = -Robot.m_oi.driveController.getY(Hand.kLeft); // -1.0 to 1.0 [full reverse to full forward]
-		double inchesFromTop = LiftSubsystem.LIFT_SCALE_HEIGHT - Robot.kLiftSubsystem.getCurrentLiftHeight(); // 75 to 0 [full down to full up]
-		double percentageFromTop = inchesFromTop / (LiftSubsystem.LIFT_SCALE_HEIGHT - LiftSubsystem.SECOND_STAGE_HEIGHT); // 2.0 to 0 [full down to full up, 1.0 is SECOND_STAGE_HEIGHT]
-		double powerFromTop = percentageFromTop * (1.0 - MAX_SPEED_WHEN_LIFT_UP) + MAX_SPEED_WHEN_LIFT_UP; // 1.4 to 0.3 [full down to full up, 1.0 is SECOND_STAGE_HEIGHT]
-		speed = speed * (Math.min(1.0, powerFromTop)); // reduce speed when lift is above SECOND_STAGE_HEIGHT
+//		double speed = -Robot.m_oi.driveController.getY(Hand.kLeft); // -1.0 to 1.0 [full reverse to full forward]
+//		double inchesFromTop = LiftSubsystem.LIFT_SCALE_HEIGHT - Robot.kLiftSubsystem.getCurrentLiftHeight(); // 75 to 0 [full down to full up]
+//		double percentageFromTop = inchesFromTop / (LiftSubsystem.LIFT_SCALE_HEIGHT - LiftSubsystem.SECOND_STAGE_HEIGHT); // 2.0 to 0 [full down to full up, 1.0 is SECOND_STAGE_HEIGHT]
+//		double powerFromTop = percentageFromTop * (1.0 - MAX_SPEED_WHEN_LIFT_UP) + MAX_SPEED_WHEN_LIFT_UP; // 1.4 to 0.3 [full down to full up, 1.0 is SECOND_STAGE_HEIGHT]
+//		speed = speed * (Math.min(1.0, powerFromTop)); // reduce speed when lift is above SECOND_STAGE_HEIGHT
 
 		Robot.kDriveSubsystem.drive(-Robot.m_oi.driveController.getY(Hand.kLeft), Robot.m_oi.driveController.getX(Hand.kRight));
 

@@ -36,7 +36,7 @@ public class TeleOpLiftCommand extends Command {
 //    			}
 //    		} else {
     			if (Robot.m_oi.functionController.getRawAxis(1) > 0.1 || Robot.m_oi.functionController.getRawAxis(1) < -0.1) {
-    	    		Robot.kLiftSubsystem.moveLift(Robot.m_oi.functionController.getRawAxis(1));
+    				Robot.kLiftSubsystem.moveLift(Robot.m_oi.functionController.getRawAxis(1));
     	    	} else {
     	    		Robot.kLiftSubsystem.moveLift(0);
     	    	}

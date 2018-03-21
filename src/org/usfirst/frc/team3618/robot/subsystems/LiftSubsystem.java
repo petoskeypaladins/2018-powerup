@@ -69,6 +69,8 @@ public class LiftSubsystem extends Subsystem {
     		}
     		remain = LIFT_BOTTOM_HEIGHT - getCurrentLiftHeight(); // 0 to -75" remain to go down
     		maxPower = remain / 11.0;
+    		if (maxPower > -0.1) // don't let us go the other way
+    			maxPower = -0.1;
     		if (isLiftDown())
     			direction = 0;
     		else if (direction < maxPower)
