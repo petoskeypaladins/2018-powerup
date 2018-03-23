@@ -17,7 +17,9 @@ public class AutoDriveCommand extends Command {
 	double inchGoal;
 	double goalAngle;
 	double maxTime;
-	static final double SCALER = 48000.0;
+	double maximum;
+	double SCALER;
+	
 	
     public AutoDriveCommand(double inches, double angle) {
         // Use requires() here to declare subsystem dependencies
@@ -26,15 +28,19 @@ public class AutoDriveCommand extends Command {
     	inchGoal = inches;
     	goalAngle = angle;
     	goal = inches * DriveSubsystem.ENCODER_COUNTS_PER_INCH;
-    	maxTime = 5.0 / (220 * DriveSubsystem.ENCODER_COUNTS_PER_INCH) * goal;
-    	minimum = 0.38;
+    	minimum = 0.40;
+    	maximum = 0.81;
+//    	SCALER = 48000; // 180"
+//    	SCALER = 30000; // 80"
+    	SCALER = 180 * inches + 15600;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//    	Robot.kDriveSubsystem.resetRobotAngle();
     	Robot.kDriveSubsystem.encoderReset();
     	Robot.kDriveSubsystem.shifToHighGear(true);
+    	maxTime = (5.0 / (220 * DriveSubsystem.ENCODER_COUNTS_PER_INCH) * goal) * 2.0 + timeSinceInitialized();
+    	SmartDashboard.putNumber("maxTime", maxTime);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -45,13 +51,18 @@ public class AutoDriveCommand extends Command {
     	if(power < minimum) {
     		power = minimum;
     	}
+    	if(power > maximum) {
+    		power = maximum;
+    	}
     	SmartDashboard.putNumber("Inches", Robot.kDriveSubsystem.getLeftCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH);
-   		Robot.kDriveSubsystem.driveStraightGyro(power, goalAngle); 
+   		Robot.kDriveSubsystem.driveStraightGyro(power, goalAngle);
+   		SmartDashboard.putNumber("Time since initialized", timeSinceInitialized());
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	SmartDashboard.putString("Times Up", maxTime < timeSinceInitialized()?"Yes":"No");
         return (Robot.kDriveSubsystem.getLeftCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH > inchGoal) || (maxTime < timeSinceInitialized());
     }
 
