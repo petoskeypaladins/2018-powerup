@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoSDriveCommand extends Command {
 	double goal;
-	final double MINIMUM = 0.45;
+	final double MINIMUM = 0.6;
 	double maxTime;
-	static final double SCALER = 38000.0;
+	static final double SCALER = 28500.0;
 	double remaining;
 	double curve;
 	
@@ -24,6 +24,7 @@ public class AutoSDriveCommand extends Command {
     	requires(Robot.kDriveSubsystem);
     	remaining = goal = inches * DriveSubsystem.ENCODER_COUNTS_PER_INCH;
     	maxTime = 10.0 / (220 * DriveSubsystem.ENCODER_COUNTS_PER_INCH) * goal;
+    	SmartDashboard.putNumber("maxTime", maxTime);
     	if(!rightSide && DriverStation.getInstance().getAlliance() == Alliance.Red) {
     		curve = 44;
     	} else {
@@ -38,7 +39,8 @@ public class AutoSDriveCommand extends Command {
     protected void initialize() {
     	Robot.kDriveSubsystem.encoderReset();
     	Robot.kDriveSubsystem.resetRobotAngle(); // need to always start with zero when doing S-Curve
-    	Robot.kDriveSubsystem.shifToHighGear(true);
+//    	Robot.kDriveSubsystem.shifToHighGear(true);
+    	Robot.kDriveSubsystem.shifToHighGear(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -56,6 +58,7 @@ public class AutoSDriveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	SmartDashboard.putString("Times Up", maxTime < timeSinceInitialized()?"Yes":"No");
         return (remaining / DriveSubsystem.ENCODER_COUNTS_PER_INCH <= 0) || (maxTime < timeSinceInitialized());
     }
 

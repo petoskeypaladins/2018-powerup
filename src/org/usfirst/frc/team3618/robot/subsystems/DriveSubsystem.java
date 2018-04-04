@@ -37,11 +37,11 @@ public class DriveSubsystem extends Subsystem {
 	public static final double ENCODER_COUNTS_PER_INCH = 217;
 	int leftValue = 0;
 	int rightValue = 0;
-	public boolean IsSDriveDone = false;
-	static final double TURN_CLIP = 0.1;
+	public boolean isSDriveDone = false;
+	static final double TURN_CLIP = 0.2;
 
 	double lastSpeed = 0;
-	static final double ACCEL_RATE = 0.1; // amount of power change per cycle
+	static final double ACCEL_RATE = 0.05; // amount of power change per cycle
 	
 	public DriveSubsystem() {
 		gyro.calibrate();
@@ -64,7 +64,7 @@ public class DriveSubsystem extends Subsystem {
 	
 	public int getLeftCounts() {
 		return leftValue - leftMotor1.getSensorCollection().getPulseWidthPosition();
-	}
+	}	
 	
 	public int getRightCounts() {
 		return rightMotor1.getSensorCollection().getPulseWidthPosition() - rightValue;
@@ -98,16 +98,17 @@ public class DriveSubsystem extends Subsystem {
     }
 
     public void driveStraightGyro(double speed,double angle) {
-		double Kp = 0.15;
+		double Kp = 0.05;
 		double turn = Kp*(angle-getRobotAngle()); 
-		if (turn > TURN_CLIP)
-			turn = TURN_CLIP;
-		else if (turn < -TURN_CLIP)
-			turn = -TURN_CLIP;
+//		if (turn > TURN_CLIP)
+//			turn = TURN_CLIP;
+//		else if (turn < -TURN_CLIP)
+//			turn = -TURN_CLIP;
 		driveTrain.arcadeDrive(accelRamp(speed),turn);
 	}
+    
 	public void driveSCurve(double speed,double progress,double totalDistance,double curve) {
-		double Kp = 0.12; // how hard do we work to follow the desired vs actual Gyro Angle?
+		double Kp = 0.09;// how hard do we work to follow the desired vs actual Gyro Angle?
 		// we need our heading to start at zero (sin(0) = 0), increase to a maximum
 		// value as we get half-way to the totalDistance we'll travel, then
 		// go back to zero.
@@ -117,8 +118,9 @@ public class DriveSubsystem extends Subsystem {
 		double angle = Math.sin((Math.PI / (totalDistance * 0.9)) * progress);
 		angle = angle * curve; // now apply the curve "effort" (which also can be negative to be left vs right)
 		double turn = Kp*(angle-getRobotAngle()); // error between angle we want and the angle of the robot
+		if(speed > 0.8175) speed = 0.8175;
 		driveTrain.arcadeDrive(accelRamp(speed), turn);
-		IsSDriveDone = (progress >= totalDistance);
+		isSDriveDone = (progress >= totalDistance);
 	}
 	
 	public void drive(double speed,double angle) {
@@ -129,6 +131,7 @@ public class DriveSubsystem extends Subsystem {
 	public void stop() {
 		driveTrain.arcadeDrive(0, 0);
 		lastSpeed = 0;
+		isSDriveDone = true;
 	}
 	public void turn(double rate) {
 		driveTrain.arcadeDrive(0, rate);

@@ -45,23 +45,21 @@ public class RightAutonomousCommand extends CommandGroup {
       		addSequential(new WaitCommand(), 0.2);
       		addSequential(new AutoTurnCommand(-55));
       		addSequential(new WaitCommand(), 0.1);
-      		addSequential(new AutoOuttakeCommand(),2);
+      		addSequential(new AutoOuttakeCommand(),1.25);
 		} else if (choice == RightChoices.RightBetween) {
 			// park between the switch and scale
-			addSequential(new AutoDriveCommand(180, 0));
-			 addSequential(new WaitCommand(), 1);
-//			addSequential(new AutoPivotCommand(), 1.75);
-			addSequential(new AutoTurnCommand(-90));
-			addSequential(new WaitCommand(), 0.5);
-//			addParallel(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));
-			addSequential(new AutoDriveCommand(80, -90));
-			addSequential(new WaitCommand(), 0.5);
-			addSequential(new AutoTurnCommand(0));
-			addSequential(new AutoDriveCommand(15, 0));
-			addSequential(new AutoOuttakeCommand(), 2);
+			addSequential(new AutoDriveCommand(185, 0));
+			addSequential(new WaitCommand(), 0.2);
+			addParallel(new AutoPivotCommand(), 1.75);
+			addSequential(new AutoTurnCommand(-90), 3);
+			addSequential(new WaitCommand(), 0.2);
+			addParallel(new AutoLiftCommand(15));
+			addSequential(new AutoDriveCommand(170, -90));
+			addSequential(new WaitCommand(), 0.2);
+			addSequential(new AutoTurnCommand(0),3.9);
+			addParallel(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT)); //If we have time, do it, else, just sit there.
 			// Put right auto code here
 		}
-
     }	  
     	}
 	

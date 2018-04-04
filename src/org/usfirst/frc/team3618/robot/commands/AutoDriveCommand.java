@@ -38,8 +38,9 @@ public class AutoDriveCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.kDriveSubsystem.encoderReset();
-    	Robot.kDriveSubsystem.shifToHighGear(true);
-    	maxTime = (5.0 / (220 * DriveSubsystem.ENCODER_COUNTS_PER_INCH) * goal) * 2.0 + timeSinceInitialized();
+//    	Robot.kDriveSubsystem.shifToHighGear(true);
+    	Robot.kDriveSubsystem.shifToHighGear(false);
+    	maxTime = Math.max(2.5, (5.0 / (220 * DriveSubsystem.ENCODER_COUNTS_PER_INCH) * Math.abs(goal)) * 2.0 + timeSinceInitialized());
     	SmartDashboard.putNumber("maxTime", maxTime);
     }
 
@@ -48,11 +49,17 @@ public class AutoDriveCommand extends Command {
     	double remaining;
     	remaining = goal - Robot.kDriveSubsystem.getLeftCounts();
     	double power = remaining / SCALER;
-    	if(power < minimum) {
-    		power = minimum;
+    	if(power < 0) {
+    		if(power > -minimum) power = - minimum;
+    		if(power < -maximum) power = - maximum;
     	}
-    	if(power > maximum) {
-    		power = maximum;
+    	else {
+    		if(power < minimum) {
+    			power = minimum;
+    		}
+    		if(power > maximum) {
+    			power = maximum;
+    		}
     	}
     	SmartDashboard.putNumber("Inches", Robot.kDriveSubsystem.getLeftCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH);
    		Robot.kDriveSubsystem.driveStraightGyro(power, goalAngle);
@@ -63,7 +70,8 @@ public class AutoDriveCommand extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	SmartDashboard.putString("Times Up", maxTime < timeSinceInitialized()?"Yes":"No");
-        return (Robot.kDriveSubsystem.getLeftCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH > inchGoal) || (maxTime < timeSinceInitialized());
+    	if(inchGoal < 0) return (Robot.kDriveSubsystem.getLeftCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH < inchGoal) || (maxTime < timeSinceInitialized());
+    	else return (Robot.kDriveSubsystem.getLeftCounts() / DriveSubsystem.ENCODER_COUNTS_PER_INCH > inchGoal) || (maxTime < timeSinceInitialized());
     }
 
     // Called once after isFinished returns true

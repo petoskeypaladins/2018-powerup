@@ -19,7 +19,7 @@ public class IntakeSubsystem extends Subsystem {
 	static final TalonSRX rightIntake = new TalonSRX(RobotMap.RIGHT_INTAKE);
 	static final DoubleSolenoid clampSolenoid = new DoubleSolenoid(RobotMap.CLAMP_SOLENOID_1,RobotMap.CLAMP_SOLENOID_2);
 	public final AnalogInput photoSwitch = new AnalogInput(1);
-	public final double INTAKE_SPEED = 0.5;
+	public final double INTAKE_SPEED = 0.7;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 

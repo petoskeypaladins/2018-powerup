@@ -6,9 +6,7 @@ import org.usfirst.frc.team3618.robot.subsystems.LiftSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
+
 public class AutoLiftCommand extends Command {
 	double goal;
 	double error;
@@ -20,6 +18,7 @@ public class AutoLiftCommand extends Command {
     	goal = inches;
     	
     	maxTime = LiftSubsystem.MAX_LIFT_TIME / LiftSubsystem.LIFT_SCALE_HEIGHT * Math.abs((Robot.kLiftSubsystem.getCurrentLiftHeight() - goal));
+    	maxTime = Math.max(2, maxTime);
     }
 
     // Called just before this Command runs the first time
