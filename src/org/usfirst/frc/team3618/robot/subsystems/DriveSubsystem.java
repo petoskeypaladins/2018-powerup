@@ -134,7 +134,12 @@ public class DriveSubsystem extends Subsystem {
 		driveTrain.arcadeDrive(0, rate);
 	}
 	public void encoderReset() {
-		//CSA Alex is would like to know where, if ever this is used. 
+		//CSA Alex is would like to know where, if ever this is used.
+
+		//This code doesn't seem to reset the encoder values - if this doesn't seem to effect you, you can probably safely comment out these lines, otherwise, this is the method you want to call:
+		//leftValue.ConfigSetParameter(ParamEnum::eClearPositionOnQuadIdx, value, 0x00, 0x00, 10);
+		//rightValue.ConfigSetParameter(ParamEnum::eClearPositionOnQuadIdx, value, 0x00, 0x00, 10);
+
 		leftValue = leftMotor1.getSensorCollection().getPulseWidthPosition();
 		rightValue = rightMotor1.getSensorCollection().getPulseWidthPosition();
 	}
