@@ -28,11 +28,12 @@ public class AutoDriveCommand extends Command {
     	inchGoal = inches;
     	goalAngle = angle;
     	goal = inches * DriveSubsystem.ENCODER_COUNTS_PER_INCH;
-    	minimum = 0.40;
+//    	minimum = 0.40;
+    	minimum = 0.6;
     	maximum = 0.81;
-//    	SCALER = 48000; // 180"
+//    	SCALER = 48000; // 180"      
 //    	SCALER = 30000; // 80"
-    	SCALER = 180 * inches + 15600;
+    	SCALER = 135 * inches + 11700; // scaled by 0.75 to be in low gear
     }
 
     // Called just before this Command runs the first time

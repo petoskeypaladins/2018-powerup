@@ -38,12 +38,12 @@ public class RightAutonomousCommand extends CommandGroup {
 			addSequential(new AutoOuttakeCommand(),1);
 		} else if (choice == RightChoices.RightToScale) {
 			// go to scale
-			addParallel(new AutoDriveCommand(226,0));
+			addParallel(new AutoDriveCommand(310,0));
 			addSequential(new AutoPivotCommand(),1.75);
       		addSequential(new WaitCommand(), 0.5);
 			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
       		addSequential(new WaitCommand(), 0.2);
-      		addSequential(new AutoTurnCommand(-55));
+      		addSequential(new AutoTurnCommand(-35));
       		addSequential(new WaitCommand(), 0.1);
       		addSequential(new AutoOuttakeCommand(),1.25);
 		} else if (choice == RightChoices.RightBetween) {
