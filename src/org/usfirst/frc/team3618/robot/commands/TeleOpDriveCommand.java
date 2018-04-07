@@ -65,7 +65,7 @@ public class TeleOpDriveCommand extends Command {
 			Robot.kDriveSubsystem.encoderReset();
 			Robot.kDriveSubsystem.resetRobotAngle();
 		}
-		SmartDashboard.putBoolean("In low gear",Robot.kDriveSubsystem.getIsInLowGear());
+		SmartDashboard.putString("Gear",Robot.kDriveSubsystem.getIsInLowGear()?"Low Gear":"High Gear");
 	}
 	
 	

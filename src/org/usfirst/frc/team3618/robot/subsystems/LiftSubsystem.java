@@ -90,7 +90,7 @@ public class LiftSubsystem extends Subsystem {
     		startedDown = false;
     	}
     	if (direction == 0) {
-       		if(externalUnlock) {
+       		if(externalUnlock && getEncoderValue() > -20000) {
        			lock.set(NOT_LOCKED);
        			if (counter > 10) {
 //       				if(getCurrentLiftHeight() <  {

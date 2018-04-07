@@ -3,7 +3,7 @@ package org.usfirst.frc.team3618.robot.commands;
 import org.usfirst.frc.team3618.robot.Robot;
 import org.usfirst.frc.team3618.robot.subsystems.LiftSubsystem;
 
-import edu.wpi.first.wpilibj.DriverStation;
+//import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -47,15 +47,16 @@ public class LeftAutonomousCommand extends CommandGroup {
 			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoTurnCommand(90),4);
 			addSequential(new WaitCommand(), 0.1);
-//			addSequential(new AutoDriveCommand(15,90));
+			addSequential(new AutoDriveCommand(8,90));
 //			addSequential(new AutoDriveCommand(15,0));
 			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoOuttakeCommand(), 1);
 		  } else if (choice == LeftChoices.LeftToScale) {
 			// go to scale
-			addParallel(new AutoDriveCommand(310,0));
+			addParallel(new AutoDriveCommand(334,0));
 			addSequential(new AutoPivotCommand(),1.75);
-      		addSequential(new WaitCommand(), 0.5);
+			//originally 0.5 wait
+      		addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT));
       		addSequential(new WaitCommand(), 0.1);
       		addSequential(new AutoTurnCommand(35),5);
@@ -64,15 +65,15 @@ public class LeftAutonomousCommand extends CommandGroup {
 		  } else if (choice == LeftChoices.LeftBetween) {
 			// park between the switch and scale
 			    addSequential(new AutoDriveCommand(185, 0));
-				addSequential(new WaitCommand(), 0.2);
-				addParallel(new AutoPivotCommand(), 1.75);
-				addSequential(new AutoTurnCommand(90), 3);
-				addSequential(new WaitCommand(), 0.2);
-				addParallel(new AutoLiftCommand(15));
-				addSequential(new AutoDriveCommand(170, 90));
-				addSequential(new WaitCommand(), 0.2);
-				addSequential(new AutoTurnCommand(0),3.9);
-				addParallel(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT)); //If we have time, do it, else, just sit there.
+//				addSequential(new WaitCommand(), 0.2);
+//				addParallel(new AutoPivotCommand(), 1.75);
+//				addSequential(new AutoTurnCommand(90), 3);
+//				addSequential(new WaitCommand(), 0.2);
+//				addParallel(new AutoLiftCommand(15));
+//				addSequential(new AutoDriveCommand(170, 90));
+//				addSequential(new WaitCommand(), 0.2);
+//				addSequential(new AutoTurnCommand(0),3.9);
+//				addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SCALE_HEIGHT)); //If we have time, do it, else, just sit there.
 					
 		  	}
         }

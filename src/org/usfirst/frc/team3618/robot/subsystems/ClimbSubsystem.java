@@ -31,12 +31,12 @@ public class ClimbSubsystem extends Subsystem {
 	    leftClimb.set(ControlMode.PercentOutput, speed);
 	    rightClimb.set(ControlMode.PercentOutput, speed);
     }
-//    public void latch() {
-//    	latchServo.setAngle(LATCH_ANGLE);
-//    }
-//    public void unlatch() {
-//    	latchServo.setAngle(UNLATCH_ANGLE);
-//    }
+    public void latch() {
+    	latchServo.setAngle(LATCH_ANGLE);
+    }
+    public void unlatch() {
+    	latchServo.setAngle(UNLATCH_ANGLE);
+    }
     public void setLatch(double degrees) {
     	latchServo.setAngle(degrees);
     }

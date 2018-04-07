@@ -24,7 +24,7 @@ public class TeleOpLiftCommand extends Command {
     	SmartDashboard.putNumber("Current lift voltage",Robot.kLiftSubsystem.getCurrentLiftHeight());
     	SmartDashboard.putBoolean("Lift limit switch value", Robot.kLiftSubsystem.isLiftDown());
     	SmartDashboard.putNumber("Encoder value", Robot.kLiftSubsystem.getEncoderValue());
-    	
+    	SmartDashboard.putNumber("Climb encoder", Robot.kLiftSubsystem.getEncoderValue());
 //    	boolean thisPress = Robot.m_oi.functionController.getRawButton(12);
 //    	if(thisPress != lastPress) {
 //    		lastPress = thisPress;

@@ -22,9 +22,9 @@
 hs_err_pid*
 
 # From prior years:
-bin/
-.metadata/
-build/
+bin
+.metadata
+build
 *.xml
 
 src/org/usfirst/frc/team3618/robot/commands/baselineAuto.java
