@@ -41,6 +41,7 @@ public class LeftAutonomousCommand extends CommandGroup {
 			addParallel(new AutoDriveCommand(158,0));
 //			addSequential(new WaitCommand(), 0.1);
 //			addSequential(new AutoPivotCommand(),2);
+		
 			addSequential(new AutoPivotCommand(),1.75);
 			addSequential(new WaitCommand(), 0.1);
 			addSequential(new AutoLiftCommand(LiftSubsystem.LIFT_SWITCH_HEIGHT));

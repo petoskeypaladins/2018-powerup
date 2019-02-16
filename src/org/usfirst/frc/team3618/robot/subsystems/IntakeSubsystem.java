@@ -41,6 +41,8 @@ public class IntakeSubsystem extends Subsystem {
     		clampSolenoid.set(Value.kReverse);
     	}
     }
+    
+    
    
 }
 
